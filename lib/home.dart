@@ -19,7 +19,10 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(8.0),
           child: Text(
             "Notes",
-            
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 43
+              ),
             ),
         ),
       ),
