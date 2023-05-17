@@ -51,10 +51,17 @@ class _HomePageState extends State<HomePage> {
                   size: 24,
                 )),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+        
+        elevation: 10,
+        child: const Icon(Icons.add_rounded,size: 48,),
       ),
     );
   }
