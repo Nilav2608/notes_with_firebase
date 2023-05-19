@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
                   size: 24,
                 )),
           ),
-          SizedBox(
+         const SizedBox(
             width: 10,
           ),
           Padding(
