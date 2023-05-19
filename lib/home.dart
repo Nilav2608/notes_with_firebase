@@ -8,7 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Color bgColor = const Color(0x252525);
+  Color bgColor = const Color(0x00252525);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
