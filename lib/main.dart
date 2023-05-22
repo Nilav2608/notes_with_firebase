@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/home.dart';
+import 'package:notes_with_firebase/view/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {

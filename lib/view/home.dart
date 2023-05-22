@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/tile_widget.dart';
+import 'package:notes_with_firebase/view/tile_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool init = false;
   Color bgColor = const Color(0x00252525);
 
   final List<int> tileColors = [
@@ -22,6 +21,12 @@ class _HomePageState extends State<HomePage> {
     0xFFB69CFF,
     0xFF9C9C9C
   ];
+
+  @override
+  void initState() {
+    init = true;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +90,8 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             // int color = tileColors[index];
             return TodoTile(
-              text: "helJKASHDFJAHSDJFHASLDJFHASJDFH  helJKASHDFJAHSDJFHASLDJFHASJDFH helJKASHDFJAHSDJFHASLDJFHASJDFH  ASJDF HSDF lo",
-              colorRandom: tileColors[index] ,
+              text: "test",
+              colorRandom: tileColors[index],
             );
           },
         ),
