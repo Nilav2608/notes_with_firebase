@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/view/pages/add_note.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -77,7 +78,13 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddNote(),
+                ));
+          },
           backgroundColor: const Color.fromARGB(255, 59, 59, 59),
           elevation: 10,
           child: const Icon(
