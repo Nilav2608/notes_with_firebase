@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/tile_widget.dart';
+import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
