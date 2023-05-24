@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/view/utils/save_dialog.dart';
 
 class AddNote extends StatelessWidget {
   const AddNote({super.key});
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +49,23 @@ class AddNote extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 59, 59, 59),
-                    borderRadius: BorderRadius.circular(15)),
-                child: const Icon(
-                  Icons.save_sharp,
-                  size: 24,
-                )),
+          GestureDetector(
+            onTap: () {
+              SaveDialog();
+              debugPrint("button pressed");
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 59, 59, 59),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: const Icon(
+                    Icons.save_sharp,
+                    size: 24,
+                  )),
+            ),
           ),
           const SizedBox(
             width: 10,
@@ -67,6 +77,7 @@ class AddNote extends StatelessWidget {
         child: Column(
           children: const [
             Expanded(
+              flex: 1,
               child: TextField(
                 // minLines: 1,
                 maxLines: null,
@@ -85,6 +96,7 @@ class AddNote extends StatelessWidget {
               height: 20,
             ),
             Expanded(
+              flex: 2,
               child: TextField(
                 // minLines: 1,
                 maxLines: null,
