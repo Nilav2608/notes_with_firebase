@@ -3,9 +3,15 @@ import 'package:notes_with_firebase/view/utils/save_dialog.dart';
 
 class AddNote extends StatelessWidget {
   const AddNote({super.key});
-  
 
-  
+  void saveDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const SaveDialog();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,7 @@ class AddNote extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              SaveDialog();
+              saveDialog(context);
               debugPrint("button pressed");
             },
             child: Padding(
