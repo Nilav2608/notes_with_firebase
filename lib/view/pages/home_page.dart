@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/pages/add_note.dart';
+import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 
 class HomePage extends StatefulWidget {
