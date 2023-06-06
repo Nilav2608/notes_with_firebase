@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/firebase_options.dart';
-import 'package:notes_with_firebase/view/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_with_firebase/view/pages/intro_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +31,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: _buildTextTheme(ThemeData.light().textTheme),
         ),
-        home: const HomePage());
+        home: const IntroPage());
   }
 }
