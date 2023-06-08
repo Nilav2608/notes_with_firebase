@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/view/pages/login_page.dart';
+import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -42,16 +44,7 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 100,
               ),
-              SizedBox(
-                height: 48,
-                width: 347,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF8875FF))),
-                    child: const Text("LOGIN")),
-              ),
+              LogInSignUpButton(onPressed: Navigator.push(context, MaterialPageRoute(builder: (context) =>const LogInPage() ,))),
               const SizedBox(
                 height: 40,
               ),
