@@ -11,9 +11,7 @@ class LogInSignUpButton extends StatelessWidget {
       height: 48,
       width: 347,
       child: ElevatedButton(
-          onPressed: () {
-            
-          },
+          onPressed: () {},
           style: const ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Color(0xFF8875FF))),
           child: const Text("LOGIN")),

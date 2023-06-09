@@ -49,7 +49,7 @@ class LogInPage extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "Username",
+                "Password",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -61,7 +61,38 @@ class LogInPage extends StatelessWidget {
               MyTextField(
                   controller: passwordController,
                   hint: "Enter Your Password",
-                  obscure: true)
+                  obscure: true),
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: 48,
+                width: 347,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF8875FF))),
+                    child: const Text("LOGIN")),
+              ),
+              const Row(
+                children: [
+                  Divider(
+                    color: Color(0xFF979797),
+                    
+                  ),
+                  Text(
+                    "Password",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Divider(
+                    color: Color(0xFF979797),
+                  ),
+                ],
+              )
             ],
           ),
         ),
