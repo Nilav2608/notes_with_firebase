@@ -53,22 +53,6 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 100,
               ),
-              // SizedBox(
-              //   height: 48,
-              //   width: 347,
-              //   child: ElevatedButton(
-              //       onPressed: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //               builder: (context) => const LogInPage(),
-              //             ));
-              //       },
-              //       style: const ButtonStyle(
-              //           backgroundColor:
-              //               MaterialStatePropertyAll(Color(0xFF8875FF))),
-              //       child: const Text("LOGIN")),
-              // ),
               LogInSignUpButton(onPressed: () => navPush(), text: "LOGIN"),
               const SizedBox(
                 height: 40,
