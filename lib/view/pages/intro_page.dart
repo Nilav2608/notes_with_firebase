@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/login_page.dart';
+import 'package:notes_with_firebase/view/pages/register_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 // import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 
@@ -61,7 +62,12 @@ class IntroPage extends StatelessWidget {
                 height: 48,
                 width: 347,
                 child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterPage()));
+                    },
                     style: ButtonStyle(
                       side: MaterialStateProperty.all<BorderSide>(
                         const BorderSide(

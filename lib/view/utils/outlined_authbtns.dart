@@ -24,7 +24,7 @@ class OutlinedAuthButtons extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(imgPath),
+              Image.asset(imgPath,width: 25,),
               const SizedBox(
                 width: 10,
               ),

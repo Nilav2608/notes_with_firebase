@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/pages/home_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 
-class LogInPage extends StatelessWidget {
-  const LogInPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmpasswordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: const Color(0x00121212),
@@ -26,14 +26,14 @@ class LogInPage extends StatelessWidget {
                   height: 50,
                 ),
                 const Text(
-                  "LogIn",
+                  "Register",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 const Text(
                   "Username",
@@ -67,19 +67,28 @@ class LogInPage extends StatelessWidget {
                     hint: "Enter Your Password",
                     obscure: true),
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
-                LogInSignUpButton(
-                    onPressed: () {
-                      debugPrint("logged in");
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
-                    },
-                    text: "LOGIN"),
+                const Text(
+                  "Confirm Passsword",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
+                ),
+                MyTextField(
+                    controller: confirmpasswordController,
+                    hint: "Re Enter Your Password",
+                    obscure: true),
+                const SizedBox(
+                  height: 40,
+                ),
+                LogInSignUpButton(onPressed: () {}, text: "LOGIN"),
+                const SizedBox(
+                  height: 20,
                 ),
                 const Row(
                   children: [
@@ -103,7 +112,7 @@ class LogInPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 const OutlinedAuthButtons(
                     imgPath: "assets/google.png", text: "Login with Google"),
@@ -113,16 +122,16 @@ class LogInPage extends StatelessWidget {
                 const OutlinedAuthButtons(
                     imgPath: "assets/apple.png", text: "Login with Apple"),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?",
+                    const Text("Alreaady have an account?",
                         style: TextStyle(color: Color(0xFF979797))),
                     GestureDetector(
                         onTap: () {},
-                        child: const Text("Register",
+                        child: const Text("Login",
                             style: TextStyle(color: Colors.white))),
                   ],
                 )
