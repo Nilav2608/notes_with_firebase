@@ -115,12 +115,16 @@ class RegisterPage extends StatelessWidget {
                   height: 20,
                 ),
                 const OutlinedAuthButtons(
-                    imgPath: "assets/google.png", text: "Login with Google"),
+                    imgPath: "assets/google.png",
+                    width: 20,
+                    text: "Login with Google"),
                 const SizedBox(
                   height: 20,
                 ),
                 const OutlinedAuthButtons(
-                    imgPath: "assets/apple.png", text: "Login with Apple"),
+                    imgPath: "assets/apple.png",
+                    width: 30,
+                    text: "Login with Apple"),
                 const SizedBox(
                   height: 20,
                 ),

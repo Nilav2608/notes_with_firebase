@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class OutlinedAuthButtons extends StatelessWidget {
   final String text;
   final String imgPath;
+  final double width;
   const OutlinedAuthButtons(
-      {super.key, required this.imgPath, required this.text});
+      {super.key, required this.imgPath, required this.text,required this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,10 @@ class OutlinedAuthButtons extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(imgPath,width: 25,),
+              Image.asset(
+                imgPath,
+                width: width,
+              ),
               const SizedBox(
                 width: 10,
               ),

@@ -72,7 +72,7 @@ class LogInPage extends StatelessWidget {
                 LogInSignUpButton(
                     onPressed: () {
                       debugPrint("logged in");
-                       Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const HomePage()));
@@ -106,12 +106,16 @@ class LogInPage extends StatelessWidget {
                   height: 30,
                 ),
                 const OutlinedAuthButtons(
-                    imgPath: "assets/google.png", text: "Login with Google"),
+                    imgPath: "assets/google.png",
+                    width: 20,
+                    text: "Login with Google"),
                 const SizedBox(
                   height: 20,
                 ),
                 const OutlinedAuthButtons(
-                    imgPath: "assets/apple.png", text: "Login with Apple"),
+                    imgPath: "assets/apple.png",
+                    width: 30,
+                    text: "Login with Apple"),
                 const SizedBox(
                   height: 40,
                 ),
