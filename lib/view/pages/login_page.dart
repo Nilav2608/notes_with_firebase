@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 
 class LogInPage extends StatelessWidget {
@@ -65,21 +66,15 @@ class LogInPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 48,
-                width: 347,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF8875FF))),
-                    child: const Text("LOGIN")),
-              ),
+              LogInSignUpButton(
+                  onPressed: () {
+                    debugPrint("logged in");
+                  },
+                  text: "LOGIN"),
               const Row(
                 children: [
                   Divider(
                     color: Color(0xFF979797),
-                    
                   ),
                   Text(
                     "Password",

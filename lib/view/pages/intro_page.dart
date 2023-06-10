@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/login_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
+// import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    navPush() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LogInPage(),
+          ));
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0x00252525),
@@ -44,23 +53,23 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 100,
               ),
-              SizedBox(
-                height: 48,
-                width: 347,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LogInPage(),
-                          ));
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF8875FF))),
-                    child: const Text("LOGIN")),
-              ),
-              // LogInSignUpButton(onPressed: Navigator.push(context, MaterialPageRoute(builder: (context) =>const LogInPage() ,))),
+              // SizedBox(
+              //   height: 48,
+              //   width: 347,
+              //   child: ElevatedButton(
+              //       onPressed: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => const LogInPage(),
+              //             ));
+              //       },
+              //       style: const ButtonStyle(
+              //           backgroundColor:
+              //               MaterialStatePropertyAll(Color(0xFF8875FF))),
+              //       child: const Text("LOGIN")),
+              // ),
+              LogInSignUpButton(onPressed: () => navPush(), text: "LOGIN"),
               const SizedBox(
                 height: 40,
               ),
