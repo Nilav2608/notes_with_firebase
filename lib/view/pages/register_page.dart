@@ -4,7 +4,9 @@ import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+  final VoidCallback showLoginpage;
+  const RegisterPage({super.key, required this.showLoginpage});
+
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -134,7 +136,7 @@ class RegisterPage extends StatelessWidget {
                     const Text("Alreaady have an account?",
                         style: TextStyle(color: Color(0xFF979797))),
                     GestureDetector(
-                        onTap: () {},
+                        onTap:showLoginpage,
                         child: const Text("Login",
                             style: TextStyle(color: Colors.white))),
                   ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/pages/login_page.dart';
-import 'package:notes_with_firebase/view/pages/register_page.dart';
+import 'package:notes_with_firebase/controller/page_switch.dart';
+// import 'package:notes_with_firebase/view/pages/login_page.dart';
+// import 'package:notes_with_firebase/view/pages/register_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 // import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 
@@ -13,7 +14,7 @@ class IntroPage extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const LogInPage(),
+            builder: (context) => const PageSwitch(),
           ));
     }
 
@@ -66,7 +67,7 @@ class IntroPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterPage()));
+                              builder: (context) => const PageSwitch()));
                     },
                     style: ButtonStyle(
                       side: MaterialStateProperty.all<BorderSide>(
