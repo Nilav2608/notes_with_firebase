@@ -78,7 +78,7 @@ class LogInPage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => const HomePage()));
                     },
-                    text: "LOGIN"),
+                    text: "Login"),
                 const SizedBox(
                   height: 30,
                 ),

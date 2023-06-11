@@ -10,20 +10,21 @@ class PageSwitch extends StatefulWidget {
 }
 
 class _PageSwitchState extends State<PageSwitch> {
-  bool showLoginPage = true;
+  bool showRegisterPage = true;
 
   toggle() {
     setState(() {
-      showLoginPage = !showLoginPage;
+      showRegisterPage = !showRegisterPage;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showLoginPage) {
-      return LogInPage(showRegisterpage: () => toggle(),);
-    } else {
+    if (showRegisterPage) {
       return RegisterPage(showLoginpage: () => toggle(),);
+      
+    } else {
+      return LogInPage(showRegisterpage: () => toggle(),);
     }
   }
 }
