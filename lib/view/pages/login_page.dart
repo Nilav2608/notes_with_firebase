@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/home_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
@@ -11,6 +12,11 @@ class LogInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
+    Future login() async {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+    }
 
     return Scaffold(
       backgroundColor: const Color(0x00121212),
@@ -126,7 +132,7 @@ class LogInPage extends StatelessWidget {
                     const Text("Don't have an account?",
                         style: TextStyle(color: Color(0xFF979797))),
                     GestureDetector(
-                        onTap : showRegisterpage,
+                        onTap: showRegisterpage,
                         child: const Text("Register",
                             style: TextStyle(color: Colors.white))),
                   ],
