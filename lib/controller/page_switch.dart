@@ -21,10 +21,13 @@ class _PageSwitchState extends State<PageSwitch> {
   @override
   Widget build(BuildContext context) {
     if (showRegisterPage) {
-      return RegisterPage(showLoginpage: () => toggle(),);
-      
+      return RegisterPage(
+        showLoginpage: () => toggle(),
+      );
     } else {
-      return LogInPage(showRegisterpage: () => toggle(),);
+      return LogInPage(
+        showRegisterpage: () => toggle(),
+      );
     }
   }
 }
