@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         initialRoute: initScreen == 0 || initScreen == null? "intro" : "home",
         routes: {
           'home' :(context) => const StreamPage(),
-          'intro' :(context) => const HomePage()
+          'intro' :(context) => const IntroPage()
         },
       );
   }
