@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/pages/home_page.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
@@ -14,8 +13,24 @@ class LogInPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
 
     Future login() async {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      showDialog(
+          context: context,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+        
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          debugPrint("user not found");
+        } else if (e.code == 'wrong-password') {
+          debugPrint("wrong-password");
+        }
+      }
+      Navigator.pop(context);
     }
 
     return Scaffold(
@@ -78,11 +93,8 @@ class LogInPage extends StatelessWidget {
                 ),
                 LogInSignUpButton(
                     onPressed: () {
+                      login();
                       debugPrint("logged in");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
                     },
                     text: "Login"),
                 const SizedBox(

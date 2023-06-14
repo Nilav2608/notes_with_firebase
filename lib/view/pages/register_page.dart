@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
@@ -13,6 +14,26 @@ class RegisterPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     TextEditingController confirmpasswordController = TextEditingController();
 
+    bool passwordConfirmed() {
+      if (passwordController.text == confirmpasswordController.text) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    Future signUp() async {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.pop(context);
+    }
+ 
     return Scaffold(
       backgroundColor: const Color(0x00121212),
       body: SafeArea(
@@ -88,7 +109,11 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                LogInSignUpButton(onPressed: () {}, text: "Register"),
+                LogInSignUpButton(
+                    onPressed: () {
+                      signUp();
+                    },
+                    text: "Register"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -136,7 +161,7 @@ class RegisterPage extends StatelessWidget {
                     const Text("Alreaady have an account?",
                         style: TextStyle(color: Color(0xFF979797))),
                     GestureDetector(
-                        onTap:showLoginpage,
+                        onTap: showLoginpage,
                         child: const Text("Login",
                             style: TextStyle(color: Colors.white))),
                   ],

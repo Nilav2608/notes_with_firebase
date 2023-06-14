@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
@@ -38,24 +39,30 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: bgColor,
           elevation: 0,
           title: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "Notes",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            padding: EdgeInsets.all(10.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Notes",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              ),
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 59, 59, 59),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: const Icon(
-                    Icons.search_rounded,
-                    size: 24,
-                  )),
+            GestureDetector(
+              onTap: () => FirebaseAuth.instance.signOut(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 59, 59, 59),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: const Icon(
+                      Icons.logout_rounded,
+                      size: 24,
+                    )),
+              ),
             ),
             const SizedBox(
               width: 10,

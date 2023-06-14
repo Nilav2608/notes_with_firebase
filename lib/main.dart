@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/stream_builder.dart';
 import 'package:notes_with_firebase/firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes_with_firebase/view/pages/home_page.dart';
 import 'package:notes_with_firebase/view/pages/intro_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
