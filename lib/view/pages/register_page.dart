@@ -29,11 +29,23 @@ class RegisterPage extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
       );
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Navigator.pop(context);
+      if (passwordConfirmed()) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+        Navigator.pop(context);
+      } else {
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text("Both passwords are no the same"),
+              );
+            });
+      }
+
+      
     }
- 
+
     return Scaffold(
       backgroundColor: const Color(0x00121212),
       body: SafeArea(
