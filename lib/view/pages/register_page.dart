@@ -71,7 +71,7 @@ class RegisterPage extends StatelessWidget {
                   height: 30,
                 ),
                 const Text(
-                  "Username",
+                  "Email",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -82,7 +82,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 MyTextField(
                     controller: emailController,
-                    hint: "Enter Your Username",
+                    hint: "Enter Your Email",
                     obscure: false),
                 const SizedBox(
                   height: 20,
