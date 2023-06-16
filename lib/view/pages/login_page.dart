@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
 import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
@@ -124,14 +125,16 @@ class LogInPage extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const OutlinedAuthButtons(
+                 OutlinedAuthButtons(
+                  onPressed: () => AuthService().signInWithGoogle(),
                     imgPath: "assets/google.png",
                     width: 20,
                     text: "Login with Google"),
                 const SizedBox(
                   height: 20,
                 ),
-                const OutlinedAuthButtons(
+                 OutlinedAuthButtons(
+                  onPressed: () => debugPrint("this feature is not available yet"),
                     imgPath: "assets/apple.png",
                     width: 30,
                     text: "Login with Apple"),

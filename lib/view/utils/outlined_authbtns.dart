@@ -4,8 +4,14 @@ class OutlinedAuthButtons extends StatelessWidget {
   final String text;
   final String imgPath;
   final double width;
+  final VoidCallback onPressed;
   const OutlinedAuthButtons(
-      {super.key, required this.imgPath, required this.text,required this.width});
+      {super.key,
+      required this.imgPath,
+      required this.text,
+      required this.width,
+      required this.onPressed
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,7 @@ class OutlinedAuthButtons extends StatelessWidget {
       height: 48,
       width: 347,
       child: OutlinedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           style: ButtonStyle(
             side: MaterialStateProperty.all<BorderSide>(
               const BorderSide(

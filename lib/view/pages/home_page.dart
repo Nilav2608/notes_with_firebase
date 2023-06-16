@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             GestureDetector(
-              onTap: () => FirebaseAuth.instance.signOut(),
+              onTap: () => AuthService().signOut(),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
