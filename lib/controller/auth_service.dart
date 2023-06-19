@@ -1,8 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
+  //*Google SignIn function
+
+  CollectionReference collection =
+      FirebaseFirestore.instance.collection("users");
+
   Future signInWithGoogle() async {
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -11,69 +17,108 @@ class AuthService {
         accessToken: gAuth.accessToken,
         idToken: gAuth.idToken,
       );
-      final authResults =
+
+      //*getting the userResult authenticated with credentials
+      final UserCredential authResults =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
+      //* we are getting the user from the  authenticated resluts   
       final User? user = authResults.user;
-      return user;
-    } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          debugPrint("user not found");
-        } else if (e.code == 'wrong-password') {
-          debugPrint("wrong-password");
+
+      Map<String,dynamic> userData = {
+        "name": user!.displayName,
+        "provider": "google",
+        "photoUrl": user.photoURL,
+        "email": user.email,
+      };
+
+      //!here we getting the uid form the collection 
+      collection.doc(user.uid).get().then((id) {
+        if (id.exists) {
+          id.reference.update(userData);
+        } else {
+          collection.doc(user.uid).set(userData);
         }
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint("user not found");
+      } else if (e.code == 'wrong-password') {
+        debugPrint("wrong-password");
       }
+    }
   }
 
-  Future login(BuildContext context, String emailController, String passwordController ) async {
-      showDialog(
-          context: context,
-          builder: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController, password: passwordController);
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context);
-        
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          debugPrint("user not found");
-        } else if (e.code == 'wrong-password') {
-          debugPrint("wrong-password");
+  //*LogIn with email and password
+
+  Future login(BuildContext context, String emailController,
+      String passwordController) async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController, password: passwordController);
+
+
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint("user not found");
+      } else if (e.code == 'wrong-password') {
+        debugPrint("wrong-password");
+      }
+    }
+  }
+
+  //* SignUp with email and password
+
+  Future signUp(BuildContext context, bool pass, emailController,
+      String passwordController) async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    if (pass) {
+      final UserCredential authResult = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController, password: passwordController);
+
+      var user = authResult.user;
+
+      Map<String,dynamic>  userData = {
+        "name": user!.displayName,
+        "provider": "email and password",
+        "photoUrl": user.photoURL,
+        "email": user.email,
+      };
+
+      collection.doc(user.uid).get().then((id) => {
+        if(id.exists){
+           id.reference.update(userData)
+        } else{
+          collection.doc(user.uid).set(userData)
         }
-      }
-      
+      });
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } else {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text("Both passwords are no the same"),
+            );
+          });
     }
-    
-
-    Future signUp(BuildContext context, bool pass, emailController, String passwordController ) async {
-      showDialog(
-        context: context,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-      if (pass) {
-        final authResult = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController, password: passwordController);
-
-        final User? user = authResult.user;
-        return user;
-      } else {
-        return showDialog(
-            context: context,
-            builder: (context) {
-              return const AlertDialog(
-                title: Text("Both passwords are no the same"),
-              );
-            });
-      }
-    }
-    
+  }
 
   signOut() async {
     FirebaseAuth.instance.signOut();
