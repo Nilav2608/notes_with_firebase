@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/utils/save_dialog.dart';
 
-class AddNote extends StatelessWidget {
-  const AddNote({super.key});
+class EditNote extends StatelessWidget {
+  const EditNote({super.key});
 
   void saveDialog(context) {
     showDialog(
@@ -39,45 +39,18 @@ class AddNote extends StatelessWidget {
                 )),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 59, 59, 59),
-                    borderRadius: BorderRadius.circular(15)),
-                child: const Icon(
-                  Icons.remove_red_eye_outlined,
-                  size: 24,
-                )),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              saveDialog(context);
-              debugPrint("button pressed");
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 59, 59, 59),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: const Icon(
-                    Icons.save_sharp,
-                    size: 24,
-                  )),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-        ],
+        
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+          },
+          backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+          elevation: 10,
+          child: const Icon(
+            Icons.save_rounded,
+            size: 38,
+          ),
+        ),
       body: const Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(

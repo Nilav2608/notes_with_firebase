@@ -31,9 +31,12 @@ class RegisterPage extends StatelessWidget {
         ),
       );
       if (passwordConfirmed()) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
-        Navigator.pop(context);
+        final authResult = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController.text, password: passwordController.text);
+
+        final User? user = authResult.user;
+        return user;
       } else {
         return showDialog(
             context: context,
@@ -43,8 +46,6 @@ class RegisterPage extends StatelessWidget {
               );
             });
       }
-
-      
     }
 
     return Scaffold(
@@ -154,16 +155,17 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                 OutlinedAuthButtons(
-                  onPressed: () => AuthService().signInWithGoogle(),
+                OutlinedAuthButtons(
+                    onPressed: () => AuthService().signInWithGoogle(),
                     imgPath: "assets/google.png",
                     width: 20,
                     text: "Login with Google"),
                 const SizedBox(
                   height: 20,
                 ),
-                 OutlinedAuthButtons(
-                  onPressed: () => debugPrint("this feature is not available yet"),
+                OutlinedAuthButtons(
+                    onPressed: () =>
+                        debugPrint("this feature is not available yet"),
                     imgPath: "assets/apple.png",
                     width: 30,
                     text: "Login with Apple"),

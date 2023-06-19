@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
+import 'package:notes_with_firebase/view/pages/edit_note.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -106,7 +107,9 @@ class _HomePageState extends State<HomePage> {
             return TodoTile(
               text: "test",
               colorRandom: tileColors[index],
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const EditNote(),)),
             );
+            
           },
         ),
       ),
