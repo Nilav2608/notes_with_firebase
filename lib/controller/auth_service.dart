@@ -17,8 +17,12 @@ class AuthService {
       final User? user = authResults.user;
       return user;
     } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+        if (e.code == 'user-not-found') {
+          debugPrint("user not found");
+        } else if (e.code == 'wrong-password') {
+          debugPrint("wrong-password");
+        }
+      }
   }
 
   Future login(BuildContext context, String emailController, String passwordController ) async {
