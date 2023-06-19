@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
@@ -23,30 +23,7 @@ class RegisterPage extends StatelessWidget {
       }
     }
 
-    Future signUp() async {
-      showDialog(
-        context: context,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-      if (passwordConfirmed()) {
-        final authResult = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-
-        final User? user = authResult.user;
-        return user;
-      } else {
-        return showDialog(
-            context: context,
-            builder: (context) {
-              return const AlertDialog(
-                title: Text("Both passwords are no the same"),
-              );
-            });
-      }
-    }
+    
 
     return Scaffold(
       backgroundColor: const Color(0x00121212),
@@ -125,7 +102,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 LogInSignUpButton(
                     onPressed: () {
-                      signUp();
+                      AuthService().signUp(context,passwordConfirmed(),emailController.text,passwordController.text);
                     },
                     text: "Register"),
                 const SizedBox(
