@@ -22,17 +22,17 @@ class AuthService {
       final UserCredential authResults =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      //* we are getting the user from the  authenticated resluts   
+      //* we are getting the user from the  authenticated resluts
       final User? user = authResults.user;
 
-      Map<String,dynamic> userData = {
+      Map<String, dynamic> userData = {
         "name": user!.displayName,
         "provider": "google",
         "photoUrl": user.photoURL,
         "email": user.email,
       };
 
-      //!here we getting the uid form the collection 
+      //!here we getting the uid form the collection
       collection.doc(user.uid).get().then((id) {
         if (id.exists) {
           id.reference.update(userData);
@@ -60,10 +60,8 @@ class AuthService {
       ),
     );
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController, password: passwordController);
-
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController, password: passwordController);
 
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -92,21 +90,21 @@ class AuthService {
               email: emailController, password: passwordController);
 
       var user = authResult.user;
-
-      Map<String,dynamic>  userData = {
-        "name": user!.displayName,
+      var email = user!.email;
+      var name1 = email!.split("@");
+      Map<String, dynamic> userData = {
+        "name": name1[0],
         "provider": "email and password",
         "photoUrl": user.photoURL,
         "email": user.email,
       };
 
       collection.doc(user.uid).get().then((id) => {
-        if(id.exists){
-           id.reference.update(userData)
-        } else{
-          collection.doc(user.uid).set(userData)
-        }
-      });
+            if (id.exists)
+              {id.reference.update(userData)}
+            else
+              {collection.doc(user.uid).set(userData)}
+          });
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } else {
