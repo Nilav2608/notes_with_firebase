@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notes_with_firebase/view/utils/cirucularprogressIndicator.dart';
 
-class AuthService {
+class AuthService extends Dialogs {
   //*Google SignIn function
-
+  var diag = Dialogs();
   CollectionReference collection =
       FirebaseFirestore.instance.collection("users");
 
@@ -53,12 +54,7 @@ class AuthService {
 
   Future login(BuildContext context, String emailController,
       String passwordController) async {
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    diag.circularProgress(context);
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController, password: passwordController);
@@ -78,12 +74,7 @@ class AuthService {
 
   Future signUp(BuildContext context, bool pass, emailController,
       String passwordController) async {
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    diag.circularProgress(context);
     if (pass) {
       final UserCredential authResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
