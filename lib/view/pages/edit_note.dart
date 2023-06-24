@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/utils/save_dialog.dart';
-
 class EditNote extends StatelessWidget {
   const EditNote({super.key});
 
-  void saveDialog(context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const SaveDialog();
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

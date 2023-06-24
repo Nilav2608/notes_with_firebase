@@ -1,21 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/utils/save_dialog.dart';
+import 'package:notes_with_firebase/view/utils/dialogs.dart';
 
 class AddNote extends StatelessWidget {
   const AddNote({super.key});
 
-  void saveDialog(context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const SaveDialog();
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);
+
+    var dialog = Dialogs();
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -57,8 +52,7 @@ class AddNote extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              saveDialog(context);
-              debugPrint("button pressed");
+              dialog.saveDialog(context);
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -82,7 +76,6 @@ class AddNote extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
-            
             //* Title
 
             Expanded(
@@ -128,4 +121,9 @@ class AddNote extends StatelessWidget {
       ),
     );
   }
+
+  CollectionReference<Object?> ref = FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection("notes");
 }
