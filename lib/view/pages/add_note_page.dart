@@ -11,14 +11,18 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNote> {
-  TextEditingController title = TextEditingController();
-  TextEditingController content = TextEditingController();
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
+  String? title;
+  String? content;
 
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);
 
-    var dialog = Dialogs();
+    // var dialog = Dialogs();
+
+    // showDialog(context: context,
+    // builder: (context) => dialog.saveDialog(context,));
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -60,9 +64,7 @@ class _AddNoteState extends State<AddNote> {
             width: 10,
           ),
           GestureDetector(
-            onTap: () {
-              dialog.saveDialog(context, add());
-            },
+            onTap: add,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -91,7 +93,7 @@ class _AddNoteState extends State<AddNote> {
               flex: 1,
               child: TextField(
                 // minLines: 1,
-                controller: title,
+                onChanged: (value) => title = value,
                 maxLines: null,
                 expands: true,
                 decoration: const InputDecoration(
@@ -114,7 +116,7 @@ class _AddNoteState extends State<AddNote> {
               flex: 2,
               child: TextField(
                 // minLines: 1,
-                controller: content,
+                onChanged: (value) => content =value,
                 maxLines: null,
                 expands: true,
                 decoration: const InputDecoration(
@@ -133,16 +135,23 @@ class _AddNoteState extends State<AddNote> {
     );
   }
 
-   add() async {
-    CollectionReference<Object?> ref = FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("notes");
+  void add() async {
+    if (userId != null) {
+      DocumentReference parentDocRef =
+          FirebaseFirestore.instance.collection("users").doc(userId);
 
-    Map<String, dynamic> data = {"title": title, "content": content};
+      CollectionReference childCollRef = parentDocRef.collection("notes");
 
-    ref.add(data);
+      Map<String, dynamic> data = {
+        "title": title,
+        "content": content,
+        "date": DateTime.now()
+      };
 
-    print("successful");
+      var id = await childCollRef.add(data);
+
+      debugPrint("sussessful $id");
+    }
+    Navigator.of(context).pop();
   }
 }

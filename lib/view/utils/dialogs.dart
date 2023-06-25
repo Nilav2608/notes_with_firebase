@@ -17,11 +17,8 @@ class Dialogs{
   }
 
 
-  saveDialog(BuildContext context,onPressed){
-    showDialog(
-      context: context,
-
-      builder:(context) =>  AlertDialog(
+  saveDialog(BuildContext context,Function onPressed){
+    AlertDialog(
         backgroundColor: const Color(0xFF252525),
         content: SizedBox(
           height: 200,
@@ -50,7 +47,7 @@ class Dialogs{
                       color: const Color(0xFFFF0000),
                       text: "Discard"),
                   Button(
-                      onPressed: ()=> onPressed,
+                      onPressed: () => onPressed,
                       color: const Color(0xFF30BE71),
                       text: "Save")
                 ],
@@ -58,7 +55,7 @@ class Dialogs{
             ],
           ),
         ),
-      ),
-    );
+      );
+    
   }
 }

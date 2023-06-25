@@ -10,7 +10,7 @@ int? initScreen;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //using sharedpreferences to store local data for showing intro page or home page
+  //*sharedpreferences is used here to store local data for showing intro page or home page
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = prefs.getInt("initScreen");
