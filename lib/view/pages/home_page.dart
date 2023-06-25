@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AddNote(),
+                  builder: (context) =>  AddNote(),
                 ));
           },
           backgroundColor: const Color.fromARGB(255, 59, 59, 59),

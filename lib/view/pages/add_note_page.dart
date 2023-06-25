@@ -3,14 +3,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/utils/dialogs.dart';
 
-class AddNote extends StatelessWidget {
+class AddNote extends StatefulWidget {
   const AddNote({super.key});
+
+  @override
+  State<AddNote> createState() => _AddNoteState();
+}
+
+class _AddNoteState extends State<AddNote> {
+  TextEditingController title = TextEditingController();
+  TextEditingController content = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);
 
     var dialog = Dialogs();
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -52,7 +61,7 @@ class AddNote extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              dialog.saveDialog(context);
+              dialog.saveDialog(context, add());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -72,8 +81,8 @@ class AddNote extends StatelessWidget {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(8.0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             //* Title
@@ -82,19 +91,20 @@ class AddNote extends StatelessWidget {
               flex: 1,
               child: TextField(
                 // minLines: 1,
+                controller: title,
                 maxLines: null,
                 expands: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Title',
                     hintStyle: TextStyle(
                       color: Color(0xFF9A9A9A),
                       fontSize: 48,
                     )),
-                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 48),
+                style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 48),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
 
@@ -104,16 +114,17 @@ class AddNote extends StatelessWidget {
               flex: 2,
               child: TextField(
                 // minLines: 1,
+                controller: content,
                 maxLines: null,
                 expands: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Type something...',
                     hintStyle: TextStyle(
                       color: Color(0xFF9A9A9A),
                       fontSize: 24,
                     )),
-                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
+                style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
               ),
             )
           ],
@@ -122,8 +133,16 @@ class AddNote extends StatelessWidget {
     );
   }
 
-  CollectionReference<Object?> ref = FirebaseFirestore.instance
-      .collection("users")
-      .doc(FirebaseAuth.instance.currentUser?.uid)
-      .collection("notes");
+   add() async {
+    CollectionReference<Object?> ref = FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("notes");
+
+    Map<String, dynamic> data = {"title": title, "content": content};
+
+    ref.add(data);
+
+    print("successful");
+  }
 }

@@ -17,7 +17,7 @@ class Dialogs{
   }
 
 
-  saveDialog(BuildContext context){
+  saveDialog(BuildContext context,onPressed){
     showDialog(
       context: context,
 
@@ -50,7 +50,7 @@ class Dialogs{
                       color: const Color(0xFFFF0000),
                       text: "Discard"),
                   Button(
-                      onPressed: () {},
+                      onPressed: ()=> onPressed,
                       color: const Color(0xFF30BE71),
                       text: "Save")
                 ],
