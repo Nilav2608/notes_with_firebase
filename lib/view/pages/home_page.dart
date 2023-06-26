@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/models/note_model.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
@@ -39,38 +40,41 @@ class _HomePageState extends State<HomePage> {
       .doc(FirebaseAuth.instance.currentUser?.uid)
       .collection("notes");
 
-  @override
-  void initState() {
-    fetchRecords(); 
-    debugPrint("data fetched");
-    ref.snapshots().listen((records) {
-      mapRecords(records);
-      
-    });
-    super.initState();
-    
-  }
+  // @override
+  // void initState() {
+  //   fetchRecords();
+  //   debugPrint("data fetched");
+  //   FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser?.uid)
+  //       .collection("notes")
+  //       .snapshots()
+  //       .listen((records) {
+  //     mapRecords(records);
+  //   });
+  //   super.initState();
+  // }
 
-  fetchRecords() async {
-    // var records = await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .doc(FirebaseAuth.instance.currentUser?.uid)
-    //     .collection("notes")
-    var records = await ref.get();
-    await mapRecords(records);
-    
-  }
+  // fetchRecords() async {
+  //   var records = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser?.uid)
+  //       .collection("notes")
+  //       .get();
+  //   // var records = await ref.get();
+  //   await mapRecords(records);
+  // }
 
-  mapRecords(QuerySnapshot<Map<String, dynamic>> records) {
-    var list = records.docs
-        .map((item) => Notes(
-            title: item["title"], content: item["content"], date: item["date"]))
-        .toList();
-    setState(() {
-      notesList = list;
-    });
-    print("length ${notesList.length}");
-  }
+  // mapRecords(QuerySnapshot<Map<String, dynamic>> records) {
+  //   var list = records.docs
+  //       .map((item) => Notes(
+  //           title: item["title"], content: item["content"], date: item["date"]))
+  //       .toList();
+  //   setState(() {
+  //     notesList = list;
+  //   });
+  //   print("length ${notesList.length}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +136,9 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const AddNote(),
-                    ));
+                    )).then((value) {
+                  setState(() {});
+                });
               },
               backgroundColor: const Color.fromARGB(255, 59, 59, 59),
               elevation: 10,
@@ -141,19 +147,43 @@ class _HomePageState extends State<HomePage> {
                 size: 48,
               ),
             ),
-            body: ListView.builder(
-              itemCount: notesList.length,
-              itemBuilder: (context, index) {
-                var random = Random();
-                var bg = tileColors[random.nextInt(6)];
-                return TodoTile(
-                  text: notesList[index].title!,
-                  colorRandom: bg,
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EditNote(),
-                      )),
+            body: FutureBuilder(
+              future: ref.get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/body.png"),
+                        const Text(
+                          "Create Your first note !",
+                          style: TextStyle(color: Colors.white,fontSize: 20),
+                        )
+                      ],
+                    );
+                  }
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var random = Random();
+                    var bg = tileColors[random.nextInt(6)];
+                    Map data = snapshot.data!.docs[index].data();
+                    // var date = (data["date"] as Timestamp).toDate();
+                    var date = DateTime.parse(data["date"]);
+                    String formattedDate = DateFormat('MMM d').format(date);
+                    return TodoTile(
+                      text: data["title"],
+                      formattedTime: formattedDate,
+                      colorRandom: bg,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditNote(),
+                          )),
+                    );
+                  },
                 );
               },
             )));
