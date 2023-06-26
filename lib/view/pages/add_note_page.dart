@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/view/utils/dialogs.dart';
+import 'package:notes_with_firebase/models/note_model.dart';
+
+import '../utils/dialogs.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key});
@@ -15,11 +17,11 @@ class _AddNoteState extends State<AddNote> {
   String? title;
   String? content;
 
+  var dialog = Dialogs();
+
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);
-
-    // var dialog = Dialogs();
 
     // showDialog(context: context,
     // builder: (context) => dialog.saveDialog(context,));
@@ -64,7 +66,7 @@ class _AddNoteState extends State<AddNote> {
             width: 10,
           ),
           GestureDetector(
-            onTap: add,
+            onTap: add, // dialog.saveDialog(context, add),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -116,7 +118,7 @@ class _AddNoteState extends State<AddNote> {
               flex: 2,
               child: TextField(
                 // minLines: 1,
-                onChanged: (value) => content =value,
+                onChanged: (value) => content = value,
                 maxLines: null,
                 expands: true,
                 decoration: const InputDecoration(
@@ -142,13 +144,10 @@ class _AddNoteState extends State<AddNote> {
 
       CollectionReference childCollRef = parentDocRef.collection("notes");
 
-      Map<String, dynamic> data = {
-        "title": title,
-        "content": content,
-        "date": DateTime.now()
-      };
+      var data = Notes(
+          title: title, content: content, date: DateTime.now().toString());
 
-      var id = await childCollRef.add(data);
+      var id = await childCollRef.add(data.toJson());
 
       debugPrint("sussessful $id");
     }
