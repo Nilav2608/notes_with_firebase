@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                         Image.asset("assets/body.png"),
                         const Text(
                           "Create Your first note !",
-                          style: TextStyle(color: Colors.white,fontSize: 20),
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         )
                       ],
                     );
@@ -170,10 +170,27 @@ class _HomePageState extends State<HomePage> {
                     var random = Random();
                     var bg = tileColors[random.nextInt(6)];
                     Map data = snapshot.data!.docs[index].data();
-                    // var date = (data["date"] as Timestamp).toDate();
-                    var date = DateTime.parse(data["date"]);
-                    String formattedDate = DateFormat('MMM d').format(date);
+                    var date = (data["date"] as Timestamp).toDate();
+                    // var date = DateTime.parse(data["date"]);
+                    var formattedDate = DateFormat('MMM d').format(date);
+                    // var newDate = formattedDate.;
+
+                    // Timestamp timestamp =
+                    //     data["date"]; // Assuming "date" is a field in your data
+
+                    // DateTime dateTime = timestamp.toDate();
+                    // var formattedDate = DateFormat('MMM d').format(dateTime);
                     return InkWell(
+                      onTap: () => Navigator.of(context)
+                          .push(MaterialPageRoute(
+                        builder: (context) => EditNote(
+                          ref: snapshot.data!.docs[index].reference,
+                          data: data,
+                        ),
+                      ))
+                          .then((value) {
+                        setState(() {});
+                      }),
                       child: TodoTile(
                         text: data["title"],
                         formattedTime: formattedDate,
