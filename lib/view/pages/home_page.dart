@@ -173,15 +173,12 @@ class _HomePageState extends State<HomePage> {
                     // var date = (data["date"] as Timestamp).toDate();
                     var date = DateTime.parse(data["date"]);
                     String formattedDate = DateFormat('MMM d').format(date);
-                    return TodoTile(
-                      text: data["title"],
-                      formattedTime: formattedDate,
-                      colorRandom: bg,
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditNote(),
-                          )),
+                    return InkWell(
+                      child: TodoTile(
+                        text: data["title"],
+                        formattedTime: formattedDate,
+                        colorRandom: bg,
+                      ),
                     );
                   },
                 );
