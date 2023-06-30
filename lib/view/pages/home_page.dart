@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
+import 'package:notes_with_firebase/view/utils/app_bar.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     fetchNotes();
+    ref.snapshots().listen((records) {
+      mapRecords(records, context);
+    });
     super.initState();
   }
 
@@ -75,6 +79,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  mapRecords(
+      QuerySnapshot<Map<String, dynamic>> records, BuildContext context) {
+    List<Notes> list = records.docs
+        .map((item) => Notes(
+            title: item["title"], content: item["content"], date: item["date"]))
+        .toList();
+
+    // Provider.of<NotesDataProvider>(context).addNote(notes);
+    var dataProvider = context.watch<NotesDataProvider>();
+    dataProvider.addNote(list as Notes);
+  }
+
   void add(BuildContext context, title, content, date) async {
     if (userId != null) {
       DocumentReference parentDocRef =
@@ -88,12 +104,11 @@ class _HomePageState extends State<HomePage> {
       var id = await childCollRef.add(data.toJson());
 
       debugPrint("sussessful $id");
-      
+
       // ignore: use_build_context_synchronously
-      var dataProvider = Provider.of<NotesDataProvider>(context, listen: false);
-      for (var element in notesList) {
-        dataProvider.addNote(element);
-      }
+      var dataProvider = Provider.of<NotesDataProvider>(context);
+      dataProvider.addNote(data);
+      debugPrint("added to provider $id");
     }
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
@@ -101,91 +116,48 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var dataProvider = Provider.of<NotesDataProvider>(context, listen: false);
+    var dataProvider = context.watch<NotesDataProvider>().notes;
     // List<Notes> dataNote = dataProvider.notes;
 
     return SafeArea(
-        child:  Scaffold(
-          backgroundColor: bgColor,
-          appBar: AppBar(
-            backgroundColor: bgColor,
-            elevation: 0,
-            title: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Notes",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-                ),
-              ),
-            ),
-            actions: [
-              GestureDetector(
-                onTap: () => AuthService().signOut(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 59, 59, 59),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: const Icon(
-                        Icons.logout_rounded,
-                        size: 24,
-                      )),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 59, 59, 59),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: const Icon(
-                      Icons.info_outline,
-                      size: 24,
-                    )),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddNote(),
-                  ));
-            },
-            backgroundColor: const Color.fromARGB(255, 59, 59, 59),
-            elevation: 10,
-            child: const Icon(
-              Icons.add_rounded,
-              size: 48,
-            ),
-          ),
-          body: Consumer<NotesDataProvider>(
-            builder: (context, value, child) => 
-            ListView.builder(
-              itemCount: value.getNote().length,
-              itemBuilder: (context, index) {
-                var random = Random();
-                var bg = tileColors[random.nextInt(6)];
-                var notes = value.getNote()[index];
-                return TodoTile(
-                  notes: notes,
-                  colorRandom: bg,
-                );
-              },
-            ),
-          )),
-    );
+        child: Scaffold(
+      backgroundColor: bgColor,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: MyAppBar(
+              bgColor: bgColor,
+              signOut: () {
+                AuthService().signOut();
+                var provider = Provider.of<NotesDataProvider>(context);
+                provider.deleteAll();
+              })),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddNote(),
+              ));
+        },
+        backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+        elevation: 10,
+        child: const Icon(
+          Icons.add_rounded,
+          size: 48,
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: dataProvider.length,
+        itemBuilder: (context, index) {
+          var random = Random();
+          var bg = tileColors[random.nextInt(6)];
+          var notes = dataProvider[index];
+          return TodoTile(
+            notes: notes,
+            colorRandom: bg,
+          );
+        },
+      ),
+    ));
   }
 }
