@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
@@ -21,6 +21,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Color bgColor = const Color(0x00252525);
 
+  @override
+  void initState() {
+    final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
+    fetchData.fetchNotes();
+    super.initState();
+  }
+
   final List<int> tileColors = [
     0xFFFD99FF,
     0xFFFF9E9E,
@@ -30,94 +37,30 @@ class _HomePageState extends State<HomePage> {
     0xFFB69CFF,
   ];
 
-  List<Notes> notesList = [];
+  // List<Notes> notesList = [];
 
-  //   String? userId = FirebaseAuth.instance.currentUser?.uid;
 
-  // DocumentReference parentDocRef =
-  //         FirebaseFirestore.instance.collection("users").doc(userId);
 
-  //     CollectionReference childCollRef = parentDocRef.collection("notes");
-  var ref = FirebaseFirestore.instance
-      .collection("users")
-      .doc(FirebaseAuth.instance.currentUser?.uid)
-      .collection("notes");
 
-  @override
-  void initState() {
-    fetchNotes();
-    ref.snapshots().listen((records) {
-      mapRecords(records, context);
-    });
-    super.initState();
-  }
+  
+  // mapRecords(
+  //     QuerySnapshot<Map<String, dynamic>> records, BuildContext context) async {
+  //   List<Notes> list = records.docs
+  //       .map((item) => Notes(
+  //           title: item["title"], content: item["content"], date: item["date"]))
+  //       .toList();
 
-  final userId = FirebaseAuth.instance.currentUser?.uid;
+  //   // Provider.of<NotesDataProvider>(context).addNote(notes);
+  //   var dataProvider = context.watch<NotesDataProvider>();
+  //   dataProvider.addNote(list as Notes);
+  // }
 
-  Future fetchNotes() async {
-    if (userId != null) {
-      final snapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(userId)
-          .collection("notes")
-          .get();
-      // print('get executed!');
-      notesList = snapshot.docs
-          .map((items) => Notes(
-              title: items["title"],
-              content: items["content"],
-              date: items["date"].toString()))
-          .toList();
-      // notesList.add(list as Notes);
-
-      // print('notes are displayed');
-      // ignore: use_build_context_synchronously
-      var dataProvider = Provider.of<NotesDataProvider>(context, listen: false);
-      for (var element in notesList) {
-        dataProvider.addNote(element);
-      }
-    }
-  }
-
-  mapRecords(
-      QuerySnapshot<Map<String, dynamic>> records, BuildContext context) {
-    List<Notes> list = records.docs
-        .map((item) => Notes(
-            title: item["title"], content: item["content"], date: item["date"]))
-        .toList();
-
-    // Provider.of<NotesDataProvider>(context).addNote(notes);
-    var dataProvider = context.watch<NotesDataProvider>();
-    dataProvider.addNote(list as Notes);
-  }
-
-  void add(BuildContext context, title, content, date) async {
-    if (userId != null) {
-      DocumentReference parentDocRef =
-          FirebaseFirestore.instance.collection("users").doc(userId);
-
-      CollectionReference childCollRef = parentDocRef.collection("notes");
-
-      var data = Notes(
-          title: title, content: content, date: DateTime.now().toString());
-
-      var id = await childCollRef.add(data.toJson());
-
-      debugPrint("sussessful $id");
-
-      // ignore: use_build_context_synchronously
-      var dataProvider = Provider.of<NotesDataProvider>(context);
-      dataProvider.addNote(data);
-      debugPrint("added to provider $id");
-    }
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
-  }
 
   @override
   Widget build(BuildContext context) {
-    var dataProvider = context.watch<NotesDataProvider>().notes;
-    // List<Notes> dataNote = dataProvider.notes;
+    var dataProvider = context.watch<NotesDataProvider>();
+    // var dataProvider = Provider.of<NotesDataProvider>(context,listen: false);
+    List<Notes> dataNote = dataProvider.notes;
 
     return SafeArea(
         child: Scaffold(
@@ -128,15 +71,17 @@ class _HomePageState extends State<HomePage> {
               bgColor: bgColor,
               signOut: () {
                 AuthService().signOut();
-                var provider = Provider.of<NotesDataProvider>(context);
-                provider.deleteAll();
+                // var provider =
+                //     Provider.of<NotesDataProvider>(context, listen: false);
+                // provider.deleteAll();
+                // Navigator.of(context).pop();
               })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AddNote(),
+                builder: (context) =>  AddNote(),
               ));
         },
         backgroundColor: const Color.fromARGB(255, 59, 59, 59),
@@ -147,11 +92,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: dataProvider.length,
+        itemCount: dataNote.length,
         itemBuilder: (context, index) {
           var random = Random();
           var bg = tileColors[random.nextInt(6)];
-          var notes = dataProvider[index];
+          var notes = dataNote[index];
           return TodoTile(
             notes: notes,
             colorRandom: bg,

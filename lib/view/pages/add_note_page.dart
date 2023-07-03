@@ -1,30 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/models/note_model.dart';
+import 'package:notes_with_firebase/controller/data_provider.dart';
+
+import 'package:provider/provider.dart';
 
 import '../utils/dialogs.dart';
 
-class AddNote extends StatefulWidget {
-  const AddNote({super.key});
+// ignore: must_be_immutable
+class AddNote extends StatelessWidget {
+  AddNote({super.key});
 
-  @override
-  State<AddNote> createState() => _AddNoteState();
-}
-
-class _AddNoteState extends State<AddNote> {
   String? userId = FirebaseAuth.instance.currentUser?.uid;
   String? title;
   String? content;
-
   var dialog = Dialogs();
+  Color bgColor = const Color(0x00252525);
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = const Color(0x00252525);
-
-    // showDialog(context: context,
-    // builder: (context) => dialog.saveDialog(context,));
+    var provider = Provider.of<NotesDataProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -66,7 +60,8 @@ class _AddNoteState extends State<AddNote> {
             width: 10,
           ),
           GestureDetector(
-            onTap: add, // dialog.saveDialog(context, add),
+            onTap: () => provider.add(
+                context, title, content), // dialog.saveDialog(context, add),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -136,21 +131,34 @@ class _AddNoteState extends State<AddNote> {
       ),
     );
   }
-
-  void add() async {
-    if (userId != null) {
-      DocumentReference parentDocRef =
-          FirebaseFirestore.instance.collection("users").doc(userId);
-
-      CollectionReference childCollRef = parentDocRef.collection("notes");
-
-      var data = Notes(
-          title: title, content: content, date: DateTime.now().toString());
-
-      var id = await childCollRef.add(data.toJson());
-
-      debugPrint("sussessful $id");
-    }
-    Navigator.of(context).pop();
-  }
 }
+
+String? userId = FirebaseAuth.instance.currentUser?.uid;
+String? title;
+String? content;
+
+var dialog = Dialogs();
+Color bgColor = const Color(0x00252525);
+
+// showDialog(context: context,
+// builder: (context) => dialog.saveDialog(context,));
+// var dataProvider = Provider.
+
+
+
+  // void add() async {
+  //   if (userId != null) {
+  //     DocumentReference parentDocRef =
+  //         FirebaseFirestore.instance.collection("users").doc(userId);
+
+  //     CollectionReference childCollRef = parentDocRef.collection("notes");
+
+  //     var data = Notes(
+  //         title: title, content: content, date: DateTime.now().toString());
+
+  //     var id = await childCollRef.add(data.toJson());
+
+  //     debugPrint("sussessful $id");
+  //   }
+  //   Navigator.of(context).pop();
+  // }
