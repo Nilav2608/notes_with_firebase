@@ -67,5 +67,15 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // delete(){}
+  delete() {
+    // if (userId != null) {
+    //   DocumentReference parentDocRef =
+    //       FirebaseFirestore.instance.collection("users").doc(userId);
+
+    //   CollectionReference childCollRef = parentDocRef.collection("notes");
+    //   childCollRef.doc(id).delete();
+
+    // }
+    debugPrint("deleted");
+  }
 }

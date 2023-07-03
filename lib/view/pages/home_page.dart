@@ -61,6 +61,9 @@ class _HomePageState extends State<HomePage> {
     var dataProvider = context.watch<NotesDataProvider>();
     // var dataProvider = Provider.of<NotesDataProvider>(context,listen: false);
     List<Notes> dataNote = dataProvider.notes;
+    deleteNote(){
+      dataProvider.delete();
+    }
 
     return SafeArea(
         child: Scaffold(
@@ -100,6 +103,7 @@ class _HomePageState extends State<HomePage> {
           return TodoTile(
             notes: notes,
             colorRandom: bg,
+            deleteNote: deleteNote,
           );
         },
       ),
