@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../models/note_model.dart';
 
 class NotesDataProvider with ChangeNotifier {
@@ -31,7 +32,7 @@ class NotesDataProvider with ChangeNotifier {
           .doc(userId)
           .collection("notes")
           .get();
-      // print('get executed!');
+      print('get executed!');
       _notesList = snapshot.docs
           .map((items) => Notes(
               title: items["title"],
@@ -59,6 +60,7 @@ class NotesDataProvider with ChangeNotifier {
       var id = await childCollRef.add(data.toJson());
       addNote(data);
       notifyListeners();
+      delete(id.toString());
 
       debugPrint("sussessful $id");
     }
@@ -67,15 +69,22 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  delete() {
-    // if (userId != null) {
-    //   DocumentReference parentDocRef =
-    //       FirebaseFirestore.instance.collection("users").doc(userId);
+  delete(String id) async {
+    DocumentReference parentDocRef =
+        FirebaseFirestore.instance.collection("users").doc(userId);
 
-    //   CollectionReference childCollRef = parentDocRef.collection("notes");
-    //   childCollRef.doc(id).delete();
+    CollectionReference childCollRef = parentDocRef.collection("notes");
+    await childCollRef.doc(id).delete();
+    notifyListeners();
+    // _notesList.remove();
 
-    // }
+    // notifyListeners();
     debugPrint("deleted");
+  }
+
+  signOut() async {
+    FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
+    _notesList.clear();
   }
 }

@@ -1,8 +1,5 @@
 import 'dart:math';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/app_bar.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
@@ -37,32 +34,13 @@ class _HomePageState extends State<HomePage> {
     0xFFB69CFF,
   ];
 
-  // List<Notes> notesList = [];
-
-
-
-
-  
-  // mapRecords(
-  //     QuerySnapshot<Map<String, dynamic>> records, BuildContext context) async {
-  //   List<Notes> list = records.docs
-  //       .map((item) => Notes(
-  //           title: item["title"], content: item["content"], date: item["date"]))
-  //       .toList();
-
-  //   // Provider.of<NotesDataProvider>(context).addNote(notes);
-  //   var dataProvider = context.watch<NotesDataProvider>();
-  //   dataProvider.addNote(list as Notes);
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     var dataProvider = context.watch<NotesDataProvider>();
-    // var dataProvider = Provider.of<NotesDataProvider>(context,listen: false);
+    // var provider = Provider.of<NotesDataProvider>(context, listen: false);
     List<Notes> dataNote = dataProvider.notes;
-    deleteNote(){
-      dataProvider.delete();
+    deleteNote(id) {
+      dataProvider.delete(id);
     }
 
     return SafeArea(
@@ -73,19 +51,11 @@ class _HomePageState extends State<HomePage> {
           child: MyAppBar(
               bgColor: bgColor,
               signOut: () {
-                AuthService().signOut();
-                // var provider =
-                //     Provider.of<NotesDataProvider>(context, listen: false);
-                // provider.deleteAll();
-                // Navigator.of(context).pop();
+                dataProvider.signOut();
               })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>  AddNote(),
-              ));
+          addNote();
         },
         backgroundColor: const Color.fromARGB(255, 59, 59, 59),
         elevation: 10,
@@ -103,10 +73,18 @@ class _HomePageState extends State<HomePage> {
           return TodoTile(
             notes: notes,
             colorRandom: bg,
-            deleteNote: deleteNote,
+            deleteNote: () => deleteNote(notes),
           );
         },
       ),
     ));
+  }
+
+  addNote() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddNote(),
+        ));
   }
 }

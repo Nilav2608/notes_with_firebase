@@ -110,8 +110,5 @@ class AuthService extends Dialogs {
     }
   }
 
-  signOut() async {
-    FirebaseAuth.instance.signOut();
-    GoogleSignIn().signOut();
-  }
+  
 }
