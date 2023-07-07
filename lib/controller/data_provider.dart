@@ -23,7 +23,7 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  final userId = FirebaseAuth.instance.currentUser?.uid;
+  var userId = FirebaseAuth.instance.currentUser?.uid;
 
   Future fetchNotes() async {
     if (userId != null) {
@@ -33,8 +33,10 @@ class NotesDataProvider with ChangeNotifier {
           .collection("notes")
           .get();
       print('get executed!');
+
       _notesList = snapshot.docs
           .map((items) => Notes(
+              id: items.id,
               title: items["title"],
               content: items["content"],
               date: items["date"].toString()))
@@ -54,32 +56,45 @@ class NotesDataProvider with ChangeNotifier {
 
       CollectionReference childCollRef = parentDocRef.collection("notes");
 
-      var data = Notes(
-          title: title, content: content, date: DateTime.now().toString());
+      Notes data = Notes(
+          id: "",
+          title: title,
+          content: content,
+          date: DateTime.now().toString());
 
-      var id = await childCollRef.add(data.toJson());
-      addNote(data);
+      await childCollRef.add(data.toJson()).then(
+          (DocumentReference reference) =>
+              reference.update({'id': reference.id}));
       notifyListeners();
-      delete(id.toString());
+      // var newNote = dummy.toList();
+      fetchNotes();
+      addNote(data);
+      print(_notesList);
+      notifyListeners();
+      // delete(id.toString());
 
-      debugPrint("sussessful $id");
+      // debugPrint("sussessful $docId");
     }
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     notifyListeners();
   }
 
-  delete(String id) async {
-    DocumentReference parentDocRef =
-        FirebaseFirestore.instance.collection("users").doc(userId);
+  Future deleteRecord(String id) async {
+    try {
+      debugPrint("provider delete");
+      DocumentReference parentDocRef =
+          FirebaseFirestore.instance.collection("users").doc(userId);
 
-    CollectionReference childCollRef = parentDocRef.collection("notes");
-    await childCollRef.doc(id).delete();
-    notifyListeners();
-    // _notesList.remove();
+      await parentDocRef.collection("notes").doc(id).delete();
 
-    // notifyListeners();
-    debugPrint("deleted");
+      _notesList.removeWhere((note) => note.id == id);
+
+      notifyListeners();
+      debugPrint("deleted");
+    } on FirebaseException {
+      print("asdf");
+    }
   }
 
   signOut() async {

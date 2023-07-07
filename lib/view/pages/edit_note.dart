@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_with_firebase/models/note_model.dart';
 
 class EditNote extends StatefulWidget {
   final DocumentReference ref;
@@ -160,9 +159,9 @@ class _EditNoteState extends State<EditNote> {
   }
 
   update() async {
-    await widget.ref.update(
-        Notes(title: title, content: content, date: DateTime.now().toString())
-            .toJson());
+    // await widget.ref.update(
+    //     Notes(title: title, content: content, date: DateTime.now().toString())
+    //         .toJson());
     Navigator.of(context).pop();
   }
 }

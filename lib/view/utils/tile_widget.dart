@@ -7,7 +7,7 @@ class TodoTile extends StatelessWidget {
   // final String formattedTime;
   final Notes notes;
   final int colorRandom;
-  final VoidCallback deleteNote;
+  final Function(BuildContext)? deleteNote;
   const TodoTile({
     super.key,
     required this.deleteNote,
@@ -25,9 +25,7 @@ class TodoTile extends StatelessWidget {
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-            onPressed: (context) {
-              deleteNote;
-            },
+            onPressed:  deleteNote,
             icon: Icons.delete,
             backgroundColor: const Color(0xFFFF0000),
             borderRadius: BorderRadius.circular(10),

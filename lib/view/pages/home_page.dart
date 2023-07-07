@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/app_bar.dart';
@@ -34,13 +35,21 @@ class _HomePageState extends State<HomePage> {
     0xFFB69CFF,
   ];
 
+  var ref = FirebaseFirestore.instance
+      .collection("users")
+      .doc(userId)
+      .collection("notes")
+      .get();
+  // .doc();
+
   @override
   Widget build(BuildContext context) {
     var dataProvider = context.watch<NotesDataProvider>();
     // var provider = Provider.of<NotesDataProvider>(context, listen: false);
     List<Notes> dataNote = dataProvider.notes;
-    deleteNote(id) {
-      dataProvider.delete(id);
+
+    void deleteNote(String id) {
+      dataProvider.deleteRecord(id);
     }
 
     return SafeArea(
@@ -70,11 +79,14 @@ class _HomePageState extends State<HomePage> {
           var random = Random();
           var bg = tileColors[random.nextInt(6)];
           var notes = dataNote[index];
+          // var ind = ref.doc();
           return TodoTile(
-            notes: notes,
-            colorRandom: bg,
-            deleteNote: () => deleteNote(notes),
-          );
+              notes: notes,
+              colorRandom: bg,
+              deleteNote: (context) {
+                deleteNote(notes.id??'');
+                debugPrint(notes.id);
+              });
         },
       ),
     ));
