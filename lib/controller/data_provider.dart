@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/note_model.dart';
+import 'dart:math';
+
 
 class NotesDataProvider with ChangeNotifier {
   List<Notes> _notesList = [];
@@ -23,6 +25,16 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
+   final List<int> tileColors = [
+        0xFFFD99FF,
+        0xFFFF9E9E,
+        0xFF91F48F,
+        0xFFFFF599,
+        0xFF9EFFFF,
+        0xFFB69CFF,
+      ];
+      var random = Random();
+
   var userId = FirebaseAuth.instance.currentUser?.uid;
 
   Future fetchNotes() async {
@@ -32,18 +44,18 @@ class NotesDataProvider with ChangeNotifier {
           .doc(userId)
           .collection("notes")
           .get();
-      print('get executed!');
+      debugPrint('get executed!');
 
       _notesList = snapshot.docs
           .map((items) => Notes(
               id: items.id,
               title: items["title"],
               content: items["content"],
-              date: items["date"].toString()))
+              date: items["date"].toString(), color: items['color']))
           .toList();
       // notesList.add(list as Notes);
 
-      print('notes are displayed');
+      debugPrint('notes are displayed');
       notifyListeners();
     }
     notifyListeners();
@@ -56,10 +68,13 @@ class NotesDataProvider with ChangeNotifier {
 
       CollectionReference childCollRef = parentDocRef.collection("notes");
 
+     
+      var bg = tileColors[random.nextInt(6)];
       Notes data = Notes(
           id: "",
           title: title,
           content: content,
+          color: bg.toString(),
           date: DateTime.now().toString());
 
       await childCollRef.add(data.toJson()).then(
@@ -69,7 +84,6 @@ class NotesDataProvider with ChangeNotifier {
       // var newNote = dummy.toList();
       fetchNotes();
       addNote(data);
-      print(_notesList);
       notifyListeners();
       // delete(id.toString());
 
@@ -93,7 +107,7 @@ class NotesDataProvider with ChangeNotifier {
       notifyListeners();
       debugPrint("deleted");
     } on FirebaseException {
-      print("asdf");
+      debugPrint("asdf");
     }
   }
 

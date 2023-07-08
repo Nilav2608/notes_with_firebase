@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
@@ -26,14 +25,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  final List<int> tileColors = [
-    0xFFFD99FF,
-    0xFFFF9E9E,
-    0xFF91F48F,
-    0xFFFFF599,
-    0xFF9EFFFF,
-    0xFFB69CFF,
-  ];
+  
 
   var ref = FirebaseFirestore.instance
       .collection("users")
@@ -76,13 +68,14 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: dataNote.length,
         itemBuilder: (context, index) {
-          var random = Random();
-          var bg = tileColors[random.nextInt(6)];
+          
+          // var bg = tileColors[random.nextInt(6)];
           var notes = dataNote[index];
           // var ind = ref.doc();
           return TodoTile(
               notes: notes,
-              colorRandom: bg,
+              
+              colorRandom: int.parse(notes.color??''),
               deleteNote: (context) {
                 deleteNote(notes.id??'');
                 debugPrint(notes.id);
