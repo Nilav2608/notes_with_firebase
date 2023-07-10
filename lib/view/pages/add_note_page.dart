@@ -133,32 +133,3 @@ class AddNote extends StatelessWidget {
   }
 }
 
-String? userId = FirebaseAuth.instance.currentUser?.uid;
-String? title;
-String? content;
-
-var dialog = Dialogs();
-Color bgColor = const Color(0x00252525);
-
-// showDialog(context: context,
-// builder: (context) => dialog.saveDialog(context,));
-// var dataProvider = Provider.
-
-
-
-  // void add() async {
-  //   if (userId != null) {
-  //     DocumentReference parentDocRef =
-  //         FirebaseFirestore.instance.collection("users").doc(userId);
-
-  //     CollectionReference childCollRef = parentDocRef.collection("notes");
-
-  //     var data = Notes(
-  //         title: title, content: content, date: DateTime.now().toString());
-
-  //     var id = await childCollRef.add(data.toJson());
-
-  //     debugPrint("sussessful $id");
-  //   }
-  //   Navigator.of(context).pop();
-  // }

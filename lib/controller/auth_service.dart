@@ -11,7 +11,8 @@ class AuthService extends Dialogs {
   CollectionReference collection =
       FirebaseFirestore.instance.collection("users");
 
-  Future signInWithGoogle() async {
+  Future signInWithGoogle(BuildContext context) async {
+    diag.circularProgress(context);
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication gAuth = await gUser!.authentication;
@@ -21,7 +22,7 @@ class AuthService extends Dialogs {
       );
 
       //*getting the userResult authenticated with credentials
-      final UserCredential authResults =
+      UserCredential authResults =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       //* we are getting the user from the  authenticated resluts
@@ -42,6 +43,7 @@ class AuthService extends Dialogs {
           collection.doc(user.uid).set(userData);
         }
       });
+      //  Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint("user not found");
@@ -49,6 +51,8 @@ class AuthService extends Dialogs {
         debugPrint("wrong-password");
       }
     }
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
   }
 
   //*LogIn with email and password
@@ -109,6 +113,4 @@ class AuthService extends Dialogs {
           });
     }
   }
-
-  
 }

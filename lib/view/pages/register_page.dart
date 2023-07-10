@@ -133,7 +133,7 @@ class RegisterPage extends StatelessWidget {
                   height: 20,
                 ),
                 OutlinedAuthButtons(
-                    onPressed: () => AuthService().signInWithGoogle(),
+                    onPressed: () => AuthService().signInWithGoogle(context),
                     imgPath: "assets/google.png",
                     width: 20,
                     text: "Login with Google"),

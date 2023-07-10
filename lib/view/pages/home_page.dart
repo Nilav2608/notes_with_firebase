@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
 import 'package:notes_with_firebase/view/utils/app_bar.dart';
@@ -17,22 +18,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Color bgColor = const Color(0x00252525);
+  var userId = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void initState() {
     final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
     fetchData.fetchNotes();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .collection("notes")
+        .snapshots()
+        .listen((event) {
+      fetchData.mapRecords(event);
+    });
     super.initState();
   }
-
-  
-
-  var ref = FirebaseFirestore.instance
-      .collection("users")
-      .doc(userId)
-      .collection("notes")
-      .get();
-  // .doc();
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +69,13 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: dataNote.length,
         itemBuilder: (context, index) {
-          
           // var bg = tileColors[random.nextInt(6)];
           var notes = dataNote[index];
-          // var ind = ref.doc();
           return TodoTile(
               notes: notes,
-              
-              colorRandom: int.parse(notes.color??''),
+              colorRandom: int.parse(notes.color ?? ''),
               deleteNote: (context) {
-                deleteNote(notes.id??'');
+                deleteNote(notes.id!);
                 debugPrint(notes.id);
               });
         },
