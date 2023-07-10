@@ -25,14 +25,14 @@ class TodoTile extends StatelessWidget {
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
-            onPressed:  deleteNote,
+            onPressed: deleteNote,
             icon: Icons.delete,
             backgroundColor: const Color(0xFFFF0000),
             borderRadius: BorderRadius.circular(10),
           )
         ]),
         child: Container(
-          padding: const EdgeInsets.only(left: 10, top: 5),
+          padding: const EdgeInsets.all(10),
           height: 100,
           decoration: BoxDecoration(
               color: Color(colorRandom),
@@ -41,22 +41,23 @@ class TodoTile extends StatelessWidget {
             // padding: const EdgeInsets.all(8.0),
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${notes.title}",
-                style: const TextStyle(color: Colors.black, fontSize: 24),
+              Container(
+                // padding: const EdgeInsets.only(bottom: 2),
+                height: 65,
+                child: Text(
+                  "${notes.title}",
+                  style: const TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "${notes.date}",
-                      style: const TextStyle(
-                        fontSize: 10.0,
-                        fontFamily: "lato",
-                        color: Colors.black87,
-                      ),
+                  Text(
+                    "${notes.date}",
+                    style: const TextStyle(
+                      fontSize: 10.0,
+                      fontFamily: "lato",
+                      color: Color.fromARGB(109, 0, 0, 0),
                     ),
                   ),
                 ],

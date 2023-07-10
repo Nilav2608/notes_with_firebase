@@ -34,7 +34,7 @@ class NotesDataProvider with ChangeNotifier {
   ];
   var random = Random();
 
-  var userId = FirebaseAuth.instance.currentUser?.uid;
+  final userId = FirebaseAuth.instance.currentUser?.uid;
   final snapshot = FirebaseFirestore.instance.collection("users");
 
   Future fetchNotes() async {
@@ -80,6 +80,7 @@ class NotesDataProvider with ChangeNotifier {
           content: content,
           color: bg.toString(),
           date: DateTime.now().toString());
+      fetchNotes();
 
       childCollRef.add(data.toJson()).then((DocumentReference reference) =>
           reference.update({'id': reference.id}));
@@ -105,7 +106,7 @@ class NotesDataProvider with ChangeNotifier {
       DocumentReference parentDocRef =
           FirebaseFirestore.instance.collection("users").doc(userId);
 
-      await parentDocRef.collection("notes").doc(id).delete();
+       parentDocRef.collection("notes").doc(id).delete();
 
       _notesList.removeWhere((note) => note.id == id);
 
