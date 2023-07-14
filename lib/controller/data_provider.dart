@@ -45,12 +45,11 @@ class NotesDataProvider with ChangeNotifier {
   }
 
   fetchNotes() async {
-    // _notesList = [];
-
     final snapshot = await FirebaseFirestore.instance
         .collection("users")
         .doc(user)
         .collection("notes")
+        .orderBy("date",descending: true)
         .get();
     debugPrint('get executed!');
     mapRecords(snapshot);
@@ -58,7 +57,6 @@ class NotesDataProvider with ChangeNotifier {
     debugPrint('notes are displayed');
     notifyListeners();
   }
-  // notifyListeners();
 
   mapRecords(QuerySnapshot<Map<String, dynamic>> snapshot) {
     _notesList = snapshot.docs
@@ -88,16 +86,11 @@ class NotesDataProvider with ChangeNotifier {
     debugPrint("sussessful id updated 1 ");
     childCollRef.add(data.toJson()).then((DocumentReference reference) =>
         reference.update({'id': reference.id}));
-    // DocumentReference newNoteRef = await childCollRef.add(data.toJson());
-    // String newNoteId = newNoteRef.id;
 
-    // await newNoteRef.update({'id': newNoteId});
     debugPrint("sussessful id updated 2");
-    // data.id = newNoteId;
     addNote(data);
     // fetchNotes();
     notifyListeners();
-    // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     notifyListeners();
   }
@@ -106,7 +99,7 @@ class NotesDataProvider with ChangeNotifier {
     try {
       debugPrint("provider delete");
       DocumentReference parentDocRef =
-          FirebaseFirestore.instance.collection("users").doc(userId);
+          FirebaseFirestore.instance.collection("users").doc(user);
 
       await parentDocRef.collection("notes").doc(id).delete();
 

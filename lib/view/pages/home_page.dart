@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     FirebaseFirestore.instance
         .collection("users")
         .doc(fetchData.user)
-        .collection("notes")
+        .collection("notes").orderBy("date",descending: true)
         .snapshots()
         .listen((event) {
       fetchData.mapRecords(event);

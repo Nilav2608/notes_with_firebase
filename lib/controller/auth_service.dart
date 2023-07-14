@@ -2,10 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:notes_with_firebase/controller/data_provider.dart';
 
 import 'package:notes_with_firebase/view/utils/dialogs.dart';
-// import 'package:provider/provider.dart';
 
 class AuthService extends Dialogs {
   //*Google SignIn function
@@ -15,7 +13,6 @@ class AuthService extends Dialogs {
       FirebaseFirestore.instance.collection("users");
 
   Future signInWithGoogle(BuildContext context) async {
-    // final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
     diag.circularProgress(context);
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -28,12 +25,13 @@ class AuthService extends Dialogs {
       //*getting the userResult authenticated with credentials
       UserCredential authResults =
           await FirebaseAuth.instance.signInWithCredential(credential);
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+
       //* we are getting the user from the  authenticated resluts
       final User? user = authResults.user;
 
-      // await fetchData.user!.reload();
       debugPrint("reloaddddddddddddddddddddddddddd");
-      // fetchData.fetchNotes();
 
       Map<String, dynamic> userData = {
         "name": user!.displayName,
@@ -62,23 +60,18 @@ class AuthService extends Dialogs {
     }
 
     // ignore: use_build_context_synchronously
-   
   }
 
   //*LogIn with email and password
 
   Future login(BuildContext context, String emailController,
       String passwordController) async {
-    // final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
-
     diag.circularProgress(context);
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController, password: passwordController);
-      // fetchData.fetchNotes();
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint("user not found");
