@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_with_firebase/view/utils/dialogs.dart';
 import '../models/note_model.dart';
 import 'dart:math';
@@ -36,8 +37,6 @@ class NotesDataProvider with ChangeNotifier {
   var random = Random();
   // ignore: prefer_typing_uninitialized_variables
   var user;
-  final userId = FirebaseAuth.instance.currentUser?.uid;
-  final snapshot = FirebaseFirestore.instance.collection("users");
 
   getUid() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -49,7 +48,7 @@ class NotesDataProvider with ChangeNotifier {
         .collection("users")
         .doc(user)
         .collection("notes")
-        .orderBy("date",descending: true)
+        .orderBy("date", descending: true)
         .get();
     debugPrint('get executed!');
     mapRecords(snapshot);
@@ -77,12 +76,14 @@ class NotesDataProvider with ChangeNotifier {
     CollectionReference childCollRef = parentDocRef.collection("notes");
 
     var bg = tileColors[random.nextInt(6)];
+    DateTime date = DateTime.now();
+    String formatDate = DateFormat('dd/MM/yy').format(date);
     Notes data = Notes(
         id: "",
         title: title,
         content: content,
         color: bg.toString(),
-        date: DateTime.now().toString());
+        date: formatDate);
     debugPrint("sussessful id updated 1 ");
     childCollRef.add(data.toJson()).then((DocumentReference reference) =>
         reference.update({'id': reference.id}));

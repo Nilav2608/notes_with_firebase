@@ -26,7 +26,8 @@ class _HomePageState extends State<HomePage> {
     FirebaseFirestore.instance
         .collection("users")
         .doc(fetchData.user)
-        .collection("notes").orderBy("date",descending: true)
+        .collection("notes")
+        .orderBy("date", descending: true)
         .snapshots()
         .listen((event) {
       fetchData.mapRecords(event);
@@ -75,13 +76,17 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 // var bg = tileColors[random.nextInt(6)];
                 var notes = dataNote[index];
-                return TodoTile(
-                    notes: notes,
-                    colorRandom: int.parse(notes.color ?? ''),
-                    deleteNote: (context) {
-                      deleteNote(notes.id!);
-                      debugPrint(notes.id);
-                    });
+                if (dataNote.isEmpty) {
+                  return Center(child: Image.asset("assets/body.png"));
+                } else {
+                  return TodoTile(
+                      notes: notes,
+                      colorRandom: int.parse(notes.color ?? ''),
+                      deleteNote: (context) {
+                        deleteNote(notes.id!);
+                        debugPrint(notes.id);
+                      });
+                }
               },
             )));
   }
