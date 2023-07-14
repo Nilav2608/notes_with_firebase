@@ -43,6 +43,7 @@ class NotesDataProvider with ChangeNotifier {
     user = auth.currentUser!.uid;
   }
 
+
   fetchNotes() async {
     final snapshot = await FirebaseFirestore.instance
         .collection("users")
