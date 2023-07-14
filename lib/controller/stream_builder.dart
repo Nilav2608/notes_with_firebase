@@ -8,12 +8,13 @@ class StreamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         debugPrint("streamed data");
-        if (snapshot.hasData) {
-          return  const HomePage();
+        if (snapshot.hasData && user != null) {
+          return const HomePage();
         } else {
           return const PageSwitch();
         }

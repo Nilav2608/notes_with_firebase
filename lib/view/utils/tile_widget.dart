@@ -41,7 +41,7 @@ class TodoTile extends StatelessWidget {
             // padding: const EdgeInsets.all(8.0),
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 // padding: const EdgeInsets.only(bottom: 2),
                 height: 65,
                 child: Text(

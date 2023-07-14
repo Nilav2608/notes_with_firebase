@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:notes_with_firebase/view/utils/dialogs.dart';
 import '../models/note_model.dart';
 import 'dart:math';
 
@@ -9,7 +10,7 @@ class NotesDataProvider with ChangeNotifier {
   List<Notes> _notesList = [];
 
   List<Notes> get notes => _notesList;
-
+  var diag = Dialogs();
   getNote() {
     return _notesList;
   }
@@ -33,26 +34,31 @@ class NotesDataProvider with ChangeNotifier {
     0xFFB69CFF,
   ];
   var random = Random();
-
+  // ignore: prefer_typing_uninitialized_variables
+  var user;
   final userId = FirebaseAuth.instance.currentUser?.uid;
   final snapshot = FirebaseFirestore.instance.collection("users");
 
-  Future fetchNotes() async {
-    // _notesList = [];
-    if (userId != null) {
-      var snapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(userId)
-          .collection("notes")
-          .get();
-      debugPrint('get executed!');
-      mapRecords(snapshot);
-
-      debugPrint('notes are displayed');
-      notifyListeners();
-    }
-    // notifyListeners();
+  getUid() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    user = auth.currentUser!.uid;
   }
+
+  fetchNotes() async {
+    // _notesList = [];
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user)
+        .collection("notes")
+        .get();
+    debugPrint('get executed!');
+    mapRecords(snapshot);
+
+    debugPrint('notes are displayed');
+    notifyListeners();
+  }
+  // notifyListeners();
 
   mapRecords(QuerySnapshot<Map<String, dynamic>> snapshot) {
     _notesList = snapshot.docs
@@ -67,34 +73,30 @@ class NotesDataProvider with ChangeNotifier {
   }
 
   void add(BuildContext context, title, content) async {
-    if (userId != null) {
-      DocumentReference parentDocRef =
-          FirebaseFirestore.instance.collection("users").doc(userId);
+    DocumentReference parentDocRef =
+        FirebaseFirestore.instance.collection("users").doc(user);
 
-      CollectionReference childCollRef = parentDocRef.collection("notes");
+    CollectionReference childCollRef = parentDocRef.collection("notes");
 
-      var bg = tileColors[random.nextInt(6)];
-      Notes data = Notes(
-          id: "",
-          title: title,
-          content: content,
-          color: bg.toString(),
-          date: DateTime.now().toString());
-      fetchNotes();
+    var bg = tileColors[random.nextInt(6)];
+    Notes data = Notes(
+        id: "",
+        title: title,
+        content: content,
+        color: bg.toString(),
+        date: DateTime.now().toString());
+    debugPrint("sussessful id updated 1 ");
+    childCollRef.add(data.toJson()).then((DocumentReference reference) =>
+        reference.update({'id': reference.id}));
+    // DocumentReference newNoteRef = await childCollRef.add(data.toJson());
+    // String newNoteId = newNoteRef.id;
 
-      childCollRef.add(data.toJson()).then((DocumentReference reference) =>
-          reference.update({'id': reference.id}));
-
-      fetchNotes();
-      // notifyListeners();
-      // var newNote = dummy.toList();
-      addNote(data);
-      // fetchNotes();
-      notifyListeners();
-      // delete(id.toString());
-
-      // debugPrint("sussessful $docId");
-    }
+    // await newNoteRef.update({'id': newNoteId});
+    debugPrint("sussessful id updated 2");
+    // data.id = newNoteId;
+    addNote(data);
+    // fetchNotes();
+    notifyListeners();
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     notifyListeners();
@@ -106,7 +108,7 @@ class NotesDataProvider with ChangeNotifier {
       DocumentReference parentDocRef =
           FirebaseFirestore.instance.collection("users").doc(userId);
 
-       parentDocRef.collection("notes").doc(id).delete();
+      await parentDocRef.collection("notes").doc(id).delete();
 
       _notesList.removeWhere((note) => note.id == id);
 
@@ -117,9 +119,17 @@ class NotesDataProvider with ChangeNotifier {
     }
   }
 
-  signOut() async {
-    FirebaseAuth.instance.signOut();
-    GoogleSignIn().signOut();
-    _notesList.clear();
+  signOut(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+
+      await GoogleSignIn().signOut();
+      deleteAll();
+      debugPrint("inner notes deleted");
+
+      notifyListeners();
+    } on FirebaseException {
+      debugPrint("asdf");
+    }
   }
 }
