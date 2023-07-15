@@ -37,12 +37,10 @@ class NotesDataProvider with ChangeNotifier {
   var random = Random();
   // ignore: prefer_typing_uninitialized_variables
   var user;
-
   getUid() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     user = auth.currentUser!.uid;
   }
-
 
   fetchNotes() async {
     final snapshot = await FirebaseFirestore.instance

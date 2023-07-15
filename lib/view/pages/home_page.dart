@@ -1,6 +1,8 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
+import 'package:notes_with_firebase/view/pages/edit_note.dart';
 import 'package:notes_with_firebase/view/utils/app_bar.dart';
 import 'package:notes_with_firebase/view/utils/tile_widget.dart';
 import 'package:provider/provider.dart';
@@ -44,11 +46,6 @@ class _HomePageState extends State<HomePage> {
     void deleteNote(String id) {
       dataProvider.deleteRecord(id);
     }
-    //  var snapshot =  FirebaseFirestore.instance
-    //       .collection("users")
-    //       .doc(userId)
-    //       .collection("notes")
-    //       .get();
 
     return SafeArea(
         child: Scaffold(
@@ -79,13 +76,16 @@ class _HomePageState extends State<HomePage> {
                 if (dataNote.isEmpty) {
                   return Center(child: Image.asset("assets/body.png"));
                 } else {
-                  return TodoTile(
-                      notes: notes,
-                      colorRandom: int.parse(notes.color ?? ''),
-                      deleteNote: (context) {
-                        deleteNote(notes.id!);
-                        debugPrint(notes.id);
-                      });
+                  return InkWell(
+                    onTap: () => editNote(notes),
+                    child: TodoTile(
+                        notes: notes,
+                        colorRandom: int.parse(notes.color ?? ''),
+                        deleteNote: (context) {
+                          deleteNote(notes.id!);
+                          debugPrint(notes.id);
+                        }),
+                  );
                 }
               },
             )));
@@ -98,4 +98,12 @@ class _HomePageState extends State<HomePage> {
           builder: (context) => AddNote(),
         ));
   }
+  editNote(Notes note) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditNote(note: note),
+        ));
+  }
+
 }

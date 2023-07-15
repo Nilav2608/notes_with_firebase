@@ -1,16 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class EditNote extends StatefulWidget {
-  final DocumentReference ref;
-  final Map data;
-  // final String date;
+import '../../models/note_model.dart';
 
-  const EditNote(
-      {required this.ref,
-      required this.data,
-      // required this.title,
-      super.key});
+class EditNote extends StatefulWidget {
+  final Notes note;
+
+  const EditNote({required this.note, super.key});
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -18,13 +13,15 @@ class EditNote extends StatefulWidget {
 
 class _EditNoteState extends State<EditNote> {
   bool enableEdit = false;
-  String? title;
-  String? content;
+
+  String? oldTile;
+
+  String? oldDescription;
+
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);
 
-    var key = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -73,9 +70,7 @@ class _EditNoteState extends State<EditNote> {
           ),
         ],
       ),
-      body: Form(
-        key: key,
-        child: Padding(
+      body:  Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -95,11 +90,11 @@ class _EditNoteState extends State<EditNote> {
                         fontSize: 48,
                       )),
                   style: const TextStyle(
-                      color: Color.fromARGB(255, 57, 55, 55), fontSize: 48),
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 48),
                   enabled: enableEdit,
-                  initialValue: widget.data["title"],
+                  initialValue: widget.note.title,
                   onChanged: (value) {
-                    title = value;
+                    oldTile = value;
                   },
                 ),
               ),
@@ -125,9 +120,9 @@ class _EditNoteState extends State<EditNote> {
                   style:
                       const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
                   enabled: enableEdit,
-                  initialValue: widget.data["content"],
+                  initialValue: widget.note.content,
                   onChanged: (value) {
-                    content = value;
+                    oldDescription = value;
                   },
                 ),
               ),
@@ -138,9 +133,7 @@ class _EditNoteState extends State<EditNote> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30.0, right: 30),
                     child: FloatingActionButton(
-                      onPressed: () {
-                        update();
-                      },
+                      onPressed: () {},
                       backgroundColor: const Color.fromARGB(255, 59, 59, 59),
                       elevation: 10,
                       child: const Icon(
@@ -154,14 +147,6 @@ class _EditNoteState extends State<EditNote> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  update() async {
-    // await widget.ref.update(
-    //     Notes(title: title, content: content, date: DateTime.now().toString())
-    //         .toJson());
-    Navigator.of(context).pop();
+      );
   }
 }
