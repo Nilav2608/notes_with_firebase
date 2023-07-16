@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notes_with_firebase/models/user_model.dart';
 // import 'package:notes_with_firebase/controller/data_provider.dart';
 
 import 'package:notes_with_firebase/view/utils/dialogs.dart';
@@ -31,20 +32,17 @@ class AuthService extends Dialogs {
       //*getting the userResult authenticated with credentials
       UserCredential authResults =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      // ignore: use_build_context_synchronously
-      // Navigator.pop(context);
 
       //* we are getting the user from the  authenticated resluts
       final User? user = authResults.user;
 
       debugPrint("reloaddddddddddddddddddddddddddd");
 
-      Map<String, dynamic> userData = {
-        "name": user!.displayName,
-        "provider": "google",
-        "photoUrl": user.photoURL,
-        "email": user.email,
-      };
+      Map<String, dynamic> userData = UserData(
+          name: user!.displayName,
+          provider: "google",
+          email: user.email,
+          photoUrl: user.photoURL).toJson();
 
       //!here we getting the uid form the collection
       collection.doc(user.uid).get().then((id) {
@@ -54,16 +52,16 @@ class AuthService extends Dialogs {
           collection.doc(user.uid).set(userData);
         }
       });
+        // ignore: use_build_context_synchronously
+      Navigator.pop(context);
       await FirebaseAuth.instance.currentUser?.reload();
       // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      // Navigator.pop(context);
       return credential;
       //  Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint("user not found");
-      } else if (e.code == 'wrong-password') {
-        debugPrint("wrong-password");
       }
     }
 
@@ -103,12 +101,17 @@ class AuthService extends Dialogs {
       var user = authResult.user;
       var email = user!.email;
       var name1 = email!.split("@");
-      Map<String, dynamic> userData = {
-        "name": name1[0],
-        "provider": "email and password",
-        "photoUrl": user.photoURL,
-        "email": user.email,
-      };
+      var userData = UserData(
+          name: name1[0],
+          provider: "email and password",
+          email: user.email,
+          photoUrl: user.photoURL).toJson();
+      //  {
+      //   "name": name1[0],
+      //   "provider": "email and password",
+      //   "photoUrl": user.photoURL,
+      //   "email": user.email,
+      // };
 
       collection.doc(user.uid).get().then((id) => {
             if (id.exists)
