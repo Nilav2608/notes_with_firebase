@@ -54,11 +54,9 @@ class AuthService extends Dialogs {
       });
         // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      await FirebaseAuth.instance.currentUser?.reload();
-      // ignore: use_build_context_synchronously
-      // Navigator.pop(context);
+      // await FirebaseAuth.instance.currentUser?.reload();
+
       return credential;
-      //  Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint("user not found");
