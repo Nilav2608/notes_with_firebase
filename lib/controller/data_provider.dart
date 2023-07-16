@@ -68,6 +68,8 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  DateTime date = DateTime.now();
+
   void add(BuildContext context, title, content) async {
     DocumentReference parentDocRef =
         FirebaseFirestore.instance.collection("users").doc(user);
@@ -75,7 +77,6 @@ class NotesDataProvider with ChangeNotifier {
     CollectionReference childCollRef = parentDocRef.collection("notes");
 
     var bg = tileColors[random.nextInt(6)];
-    DateTime date = DateTime.now();
     String formatDate = DateFormat('dd/MM/yy').format(date);
     Notes data = Notes(
         id: "",
@@ -93,6 +94,26 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
     Navigator.of(context).pop();
     notifyListeners();
+  }
+
+  void updateRecord(BuildContext context, String? title, String content,
+      String id, String color, String uid) async {
+    DocumentReference parentDocRef =
+        FirebaseFirestore.instance.collection("users").doc(user);
+
+    CollectionReference childCollRef = parentDocRef.collection("notes");
+    String formatDate = DateFormat('dd/MM/yy').format(date);
+
+    await childCollRef.doc(uid).update(Notes(
+            id: id,
+            title: title,
+            color: color,
+            content: content,
+            date: formatDate)
+        .toJson());
+    notifyListeners();
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 
   Future deleteRecord(String id) async {
