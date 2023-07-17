@@ -82,7 +82,7 @@ class _EditNoteState extends State<EditNote> {
             child: Column(
               children: [
                 //* Title
-          
+
                 TextFormField(
                   minLines: 1,
                   maxLines: 7,
@@ -99,16 +99,16 @@ class _EditNoteState extends State<EditNote> {
                   enabled: enableEdit,
                   initialValue: widget.note.title,
                   onChanged: (value) {
-                    oldTile = value;
+                    widget.note.title = value;
                   },
                 ),
-          
+
                 const SizedBox(
                   height: 5,
                 ),
-          
+
                 //* Type Something.....
-          
+
                 TextFormField(
                   minLines: 1,
                   maxLines: 100,
@@ -120,11 +120,12 @@ class _EditNoteState extends State<EditNote> {
                         color: Color(0xFF9A9A9A),
                         fontSize: 24,
                       )),
-                  style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
+                  style:
+                      const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
                   enabled: enableEdit,
                   initialValue: widget.note.content,
                   onChanged: (value) {
-                    oldDescription = value;
+                    widget.note.content = value;
                   },
                 ),
               ],
@@ -141,8 +142,8 @@ class _EditNoteState extends State<EditNote> {
                 onPressed: () {
                   dataProvider.updateRecord(
                       context,
-                      oldTile,
-                      oldDescription ?? '',
+                      widget.note.title ?? '',
+                      widget.note.content ?? "",
                       widget.note.id ?? '',
                       widget.note.color!,
                       widget.note.id!);
