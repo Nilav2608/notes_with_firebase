@@ -51,6 +51,7 @@ class _EditNoteState extends State<EditNote> {
         actions: [
           GestureDetector(
             onTap: () {
+              debugPrint("clicked");
               setState(() {
                 enableEdit = !enableEdit;
               });
@@ -73,90 +74,90 @@ class _EditNoteState extends State<EditNote> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            //* Title
-
-            Expanded(
-              flex: 1,
-              child: TextFormField(
-                // minLines: 1,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9A9A9A),
-                      fontSize: 48,
-                    )),
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 48),
-                enabled: enableEdit,
-                initialValue: widget.note.title,
-                onChanged: (value) {
-                  oldTile = value;
+      body: Stack(children: [
+        SingleChildScrollView(
+          // controller: controller,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                //* Title
+          
+                TextFormField(
+                  minLines: 1,
+                  maxLines: 7,
+                  // expands: true,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Title',
+                      hintStyle: TextStyle(
+                        color: Color(0xFF9A9A9A),
+                        fontSize: 48,
+                      )),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 48),
+                  enabled: enableEdit,
+                  initialValue: widget.note.title,
+                  onChanged: (value) {
+                    oldTile = value;
+                  },
+                ),
+          
+                const SizedBox(
+                  height: 5,
+                ),
+          
+                //* Type Something.....
+          
+                TextFormField(
+                  minLines: 1,
+                  maxLines: 100,
+                  // expands: true,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Type something...',
+                      hintStyle: TextStyle(
+                        color: Color(0xFF9A9A9A),
+                        fontSize: 24,
+                      )),
+                  style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
+                  enabled: enableEdit,
+                  initialValue: widget.note.content,
+                  onChanged: (value) {
+                    oldDescription = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        Visibility(
+          visible: enableEdit,
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 30.0, right: 30),
+              child: FloatingActionButton(
+                onPressed: () {
+                  dataProvider.updateRecord(
+                      context,
+                      oldTile,
+                      oldDescription ?? '',
+                      widget.note.id ?? '',
+                      widget.note.color!,
+                      widget.note.id!);
                 },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-
-            //* Type Something.....
-
-            Expanded(
-              flex: 2,
-              child: TextFormField(
-                // minLines: 1,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Type something...',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9A9A9A),
-                      fontSize: 24,
-                    )),
-                style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
-                enabled: enableEdit,
-                initialValue: widget.note.content,
-                onChanged: (value) {
-                  oldDescription = value;
-                },
-              ),
-            ),
-            Visibility(
-              visible: enableEdit,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0, right: 30),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      dataProvider.updateRecord(
-                          context,
-                          oldTile,
-                          oldDescription??'',
-                          widget.note.id??'',
-                          widget.note.color!,
-                          widget.note.id!);
-                    },
-                    backgroundColor: const Color.fromARGB(255, 59, 59, 59),
-                    elevation: 10,
-                    child: const Icon(
-                      Icons.save_rounded,
-                      size: 38,
-                    ),
-                  ),
+                backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+                elevation: 10,
+                child: const Icon(
+                  Icons.save_rounded,
+                  size: 38,
                 ),
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ]),
     );
   }
 }
