@@ -16,10 +16,6 @@ class EditNote extends StatefulWidget {
 class _EditNoteState extends State<EditNote> {
   bool enableEdit = false;
 
-  String? oldTile;
-
-  String? oldDescription;
-
   @override
   Widget build(BuildContext context) {
     Color bgColor = const Color(0x00252525);

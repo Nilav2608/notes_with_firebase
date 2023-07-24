@@ -26,6 +26,7 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
   final List<int> tileColors = [
     0xFFFD99FF,
     0xFFFF9E9E,
