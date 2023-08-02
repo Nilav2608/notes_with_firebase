@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
@@ -6,8 +5,8 @@ import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 
 class RegisterPage extends StatelessWidget {
-  final VoidCallback showLoginpage;
-  const RegisterPage({super.key, required this.showLoginpage});
+  final VoidCallback showLoginPage;
+  const RegisterPage({super.key,  required this.showLoginPage});
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +22,34 @@ class RegisterPage extends StatelessWidget {
       }
     }
 
-    
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0x00121212),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.06,
+              vertical: screenHeight * 0.04,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 50,
+                 SizedBox(
+                  height: screenHeight * 0.04,
                 ),
                 const Text(
                   "Register",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const SizedBox(
-                  height: 30,
+                 SizedBox(
+                  height: screenHeight * 0.03,
                 ),
                 const Text(
                   "Email",
@@ -56,15 +58,16 @@ class RegisterPage extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: screenHeight * 0.01,
                 ),
                 MyTextField(
-                    controller: emailController,
-                    hint: "Enter Your Email",
-                    obscure: false),
-                const SizedBox(
-                  height: 20,
+                  controller: emailController,
+                  hint: "Enter Your Email",
+                  obscure: false,
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.02,
                 ),
                 const Text(
                   "Password",
@@ -73,40 +76,48 @@ class RegisterPage extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: screenHeight * 0.01,
                 ),
                 MyTextField(
-                    controller: passwordController,
-                    hint: "Enter Your Password",
-                    obscure: true),
-                const SizedBox(
-                  height: 20,
+                  controller: passwordController,
+                  hint: "Enter Your Password",
+                  obscure: true,
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.02,
                 ),
                 const Text(
-                  "Confirm Passsword",
+                  "Confirm Password",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: screenHeight * 0.01,
                 ),
                 MyTextField(
-                    controller: confirmpasswordController,
-                    hint: "Re Enter Your Password",
-                    obscure: true),
-                const SizedBox(
-                  height: 40,
+                  controller: confirmpasswordController,
+                  hint: "Re Enter Your Password",
+                  obscure: true,
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.04,
                 ),
                 LogInSignUpButton(
-                    onPressed: () {
-                      AuthService().signUp(context,passwordConfirmed(),emailController.text,passwordController.text);
-                    },
-                    text: "Register"),
-                const SizedBox(
-                  height: 20,
+                  onPressed: () {
+                    AuthService().signUp(
+                      context,
+                      passwordConfirmed(),
+                      emailController.text,
+                      passwordController.text,
+                    );
+                  },
+                  text: "Register",
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.01,
                 ),
                 const Row(
                   children: [
@@ -129,35 +140,41 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: screenHeight * 0.01,
                 ),
                 OutlinedAuthButtons(
-                    onPressed: () => AuthService().signInWithGoogle(context),
-                    imgPath: "assets/google.png",
-                    width: 20,
-                    text: "Login with Google"),
-                const SizedBox(
-                  height: 20,
+                  onPressed: () => AuthService().signInWithGoogle(context),
+                  imgPath: "assets/google.png",
+                  width: 20,
+                  text: "Login with Google",
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.03,
                 ),
                 OutlinedAuthButtons(
-                    onPressed: () =>
-                        debugPrint("this feature is not available yet"),
-                    imgPath: "assets/apple.png",
-                    width: 30,
-                    text: "Login with Apple"),
-                const SizedBox(
-                  height: 20,
+                  onPressed: () => debugPrint("This feature is not available yet"),
+                  imgPath: "assets/apple.png",
+                  width: 30,
+                  text: "Login with Apple",
+                ),
+                 SizedBox(
+                  height: screenHeight * 0.03,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Alreaady have an account?",
-                        style: TextStyle(color: Color(0xFF979797))),
+                    const Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Color(0xFF979797)),
+                    ),
                     GestureDetector(
-                        onTap: showLoginpage,
-                        child: const Text("Login",
-                            style: TextStyle(color: Colors.white))),
+                      onTap: showLoginPage,
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ],
                 )
               ],

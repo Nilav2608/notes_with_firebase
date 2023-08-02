@@ -9,36 +9,42 @@ class IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     navPush() {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const StreamPage(),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (context) => const StreamPage(),
+        ),
+      );
     }
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0x00252525),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05,
+            vertical: screenHeight * 0.04,
+          ),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 50,
-              ),
               const Text(
                 "Welcome To Notes",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(
                 height: 30,
               ),
               const Text(
-                "Please login to your account or create new account to continue",
+                "Please login to your account or create a new account to continue",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -46,40 +52,35 @@ class IntroPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
-              Image.asset("assets/introNote.png", height: 200),
+              Image.asset("assets/introNote.png", height: screenHeight * 0.2),
               const SizedBox(
-                height: 100,
+                height: 30,
               ),
               LogInSignUpButton(onPressed: () => navPush(), text: "LOGIN"),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               SizedBox(
                 height: 48,
-                width: 347,
+                width: screenWidth * 0.9,
                 child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const StreamPage()));
-                    },
-                    style: ButtonStyle(
-                      side: MaterialStateProperty.all<BorderSide>(
-                        const BorderSide(
-                          color: Color(
-                              0xFF8E7CFF), // Set the desired outline color
-                          width: 2.0, // Set the desired outline width
-                        ),
+                  onPressed: () => navPush(),
+                  style: ButtonStyle(
+                    side: MaterialStateProperty.all<BorderSide>(
+                      const BorderSide(
+                        color: Color(0xFF8E7CFF), // Set the desired outline color
+                        width: 2.0, // Set the desired outline width
                       ),
                     ),
-                    child: const Text(
-                      "CREATE ACCOUNT",
-                      style: TextStyle(color: Colors.white),
-                    )),
-              )
+                  ),
+                  child: const Text(
+                    "CREATE ACCOUNT",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
