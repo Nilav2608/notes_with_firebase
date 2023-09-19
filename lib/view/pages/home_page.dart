@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     fetchData.fetchNotes();
     FirebaseFirestore.instance
         .collection("users")
-        .doc(fetchData.user)
+        .doc(fetchData.userID)
         .collection("notes")
         .orderBy("date", descending: true)
         .snapshots()

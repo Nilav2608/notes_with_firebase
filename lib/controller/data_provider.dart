@@ -26,7 +26,6 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   final List<int> tileColors = [
     0xFFFD99FF,
     0xFFFF9E9E,
@@ -37,16 +36,63 @@ class NotesDataProvider with ChangeNotifier {
   ];
   var random = Random();
   // ignore: prefer_typing_uninitialized_variables
-  var user;
+
+  //invalid password
+  bool _validEmailOrPassword = false;
+  // bool validUserName = false;
+
+  get isTrue => _validEmailOrPassword;
+
+  void invalidPasseord(bool val) async {
+    _validEmailOrPassword = val;
+    debugPrint("method invoked");
+    notifyListeners();
+  }
+
+  // void invalidUsername() {
+  //   validUserName = true;
+  //   notifyListeners();
+  // }
+  // Future login(BuildContext context, String emailController,
+  //     String passwordController) async {
+  //   // var provider = Provider.of<NotesDataProvider>(context, listen: false);
+
+  //   diag.circularProgress(context);
+  //   try {
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //         email: emailController, password: passwordController);
+  //     await FirebaseAuth.instance.currentUser?.reload();
+  //     // ignore: use_build_context_synchronously
+  //     Navigator.pop(context);
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'user-not-found') {
+  //       // provider.invalidPasseord(true);
+  //        _validEmailOrPassword = false;
+  //        notifyListeners();
+  //       // ignore: use_build_context_synchronously
+  //       Navigator.pop(context);
+  //       debugPrint("user not found");
+  //     } else if (e.code == 'wrong-password') {
+  //       // provider.invalidPasseord(true);
+  //       _validEmailOrPassword = false;
+  //       notifyListeners();
+  //       // ignore: use_build_context_synchronously
+  //       Navigator.pop(context);
+  //       debugPrint("wrong-password");
+  //     }
+  //   }
+  // }
+
+  var userID = "";
   getUid() async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    user = auth.currentUser!.uid;
+    userID = auth.currentUser!.uid;
   }
 
   fetchNotes() async {
     final snapshot = await FirebaseFirestore.instance
         .collection("users")
-        .doc(user)
+        .doc(userID)
         .collection("notes")
         .orderBy("date", descending: true)
         .get();
@@ -73,7 +119,7 @@ class NotesDataProvider with ChangeNotifier {
 
   void add(BuildContext context, title, content) async {
     DocumentReference parentDocRef =
-        FirebaseFirestore.instance.collection("users").doc(user);
+        FirebaseFirestore.instance.collection("users").doc(userID);
 
     CollectionReference childCollRef = parentDocRef.collection("notes");
 
@@ -100,7 +146,7 @@ class NotesDataProvider with ChangeNotifier {
   void updateRecord(BuildContext context, String? title, String content,
       String id, String color, String uid) async {
     DocumentReference parentDocRef =
-        FirebaseFirestore.instance.collection("users").doc(user);
+        FirebaseFirestore.instance.collection("users").doc(userID);
 
     CollectionReference childCollRef = parentDocRef.collection("notes");
     String formatDate = DateFormat('dd/MM/yy').format(date);
@@ -121,7 +167,7 @@ class NotesDataProvider with ChangeNotifier {
     try {
       debugPrint("provider delete");
       DocumentReference parentDocRef =
-          FirebaseFirestore.instance.collection("users").doc(user);
+          FirebaseFirestore.instance.collection("users").doc(userID);
 
       await parentDocRef.collection("notes").doc(id).delete();
 

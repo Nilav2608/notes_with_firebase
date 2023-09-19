@@ -3,23 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notes_with_firebase/models/user_model.dart';
-// import 'package:notes_with_firebase/controller/data_provider.dart';
-
 import 'package:notes_with_firebase/view/utils/dialogs.dart';
-// import 'package:provider/provider.dart';
 
 class AuthService extends Dialogs {
   //*Google SignIn function
-  // final curentUser = FirebaseAuth.instance.currentUser?.uid;
-
   var diag = Dialogs();
 
   CollectionReference collection =
       FirebaseFirestore.instance.collection("users");
 
   Future signInWithGoogle(BuildContext context) async {
-    // var provider = Provider.of<NotesDataProvider>(context, listen: false);
-
     diag.circularProgress(context);
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -39,10 +32,11 @@ class AuthService extends Dialogs {
       debugPrint("reloaddddddddddddddddddddddddddd");
 
       Map<String, dynamic> userData = UserData(
-          name: user!.displayName,
-          provider: "google",
-          email: user.email,
-          photoUrl: user.photoURL).toJson();
+              name: user!.displayName,
+              provider: "google",
+              email: user.email,
+              photoUrl: user.photoURL)
+          .toJson();
 
       //!here we getting the uid form the collection
       collection.doc(user.uid).get().then((id) {
@@ -52,7 +46,7 @@ class AuthService extends Dialogs {
           collection.doc(user.uid).set(userData);
         }
       });
-        // ignore: use_build_context_synchronously
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // await FirebaseAuth.instance.currentUser?.reload();
 
@@ -70,22 +64,37 @@ class AuthService extends Dialogs {
 
   Future login(BuildContext context, String emailController,
       String passwordController) async {
+    // var provider = Provider.of<NotesDataProvider>(context, listen: false);
+
     diag.circularProgress(context);
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController, password: passwordController);
-      await FirebaseAuth.instance.currentUser?.reload();
+      // await FirebaseAuth.instance.currentUser?.reload();
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
+ 
+          // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        diag.wrongEmailMessage(context,e.code);
+
+           
         debugPrint("user not found");
       } else if (e.code == 'wrong-password') {
+      
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        diag.wrongEmailMessage(context,e.code);
         debugPrint("wrong-password");
       }
     }
   }
 
+  
   //* SignUp with email and password
 
   Future signUp(BuildContext context, bool pass, emailController,
@@ -100,10 +109,11 @@ class AuthService extends Dialogs {
       var email = user!.email;
       var name1 = email!.split("@");
       var userData = UserData(
-          name: name1[0],
-          provider: "email and password",
-          email: user.email,
-          photoUrl: user.photoURL).toJson();
+              name: name1[0],
+              provider: "email and password",
+              email: user.email,
+              photoUrl: user.photoURL)
+          .toJson();
       //  {
       //   "name": name1[0],
       //   "provider": "email and password",
@@ -125,7 +135,7 @@ class AuthService extends Dialogs {
           context: context,
           builder: (context) {
             return const AlertDialog(
-              title: Text("Both passwords are no the same"),
+              title: Text("Both passwords are not the same"),
             );
           });
     }

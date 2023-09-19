@@ -21,6 +21,7 @@ class RegisterPage extends StatelessWidget {
         return false;
       }
     }
+     validate(String? val) {}
 
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -65,6 +66,9 @@ class RegisterPage extends StatelessWidget {
                   controller: emailController,
                   hint: "Enter Your Email",
                   obscure: false,
+                //  changed: (value) {
+                //         // validate(value);
+                //       },
                 ),
                  SizedBox(
                   height: screenHeight * 0.02,
@@ -83,6 +87,7 @@ class RegisterPage extends StatelessWidget {
                   controller: passwordController,
                   hint: "Enter Your Password",
                   obscure: true,
+                  // changed: (p0) =>  validate(p0)
                 ),
                  SizedBox(
                   height: screenHeight * 0.02,
@@ -101,6 +106,9 @@ class RegisterPage extends StatelessWidget {
                   controller: confirmpasswordController,
                   hint: "Re Enter Your Password",
                   obscure: true,
+                  // changed :(value){
+
+                  // },
                 ),
                  SizedBox(
                   height: screenHeight * 0.04,

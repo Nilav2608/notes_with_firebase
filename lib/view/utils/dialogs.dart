@@ -16,6 +16,20 @@ class Dialogs{
     );
   }
 
+  void wrongEmailMessage(context,String error) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return  AlertDialog(
+          title: Text(error),
+        );
+      },
+    );
+  }
+
+
+
+
 
   saveDialog(BuildContext context,Function onPressed){
     showDialog(
