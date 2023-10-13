@@ -49,40 +49,6 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void invalidUsername() {
-  //   validUserName = true;
-  //   notifyListeners();
-  // }
-  // Future login(BuildContext context, String emailController,
-  //     String passwordController) async {
-  //   // var provider = Provider.of<NotesDataProvider>(context, listen: false);
-
-  //   diag.circularProgress(context);
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //         email: emailController, password: passwordController);
-  //     await FirebaseAuth.instance.currentUser?.reload();
-  //     // ignore: use_build_context_synchronously
-  //     Navigator.pop(context);
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       // provider.invalidPasseord(true);
-  //        _validEmailOrPassword = false;
-  //        notifyListeners();
-  //       // ignore: use_build_context_synchronously
-  //       Navigator.pop(context);
-  //       debugPrint("user not found");
-  //     } else if (e.code == 'wrong-password') {
-  //       // provider.invalidPasseord(true);
-  //       _validEmailOrPassword = false;
-  //       notifyListeners();
-  //       // ignore: use_build_context_synchronously
-  //       Navigator.pop(context);
-  //       debugPrint("wrong-password");
-  //     }
-  //   }
-  // }
-
   var userID = "";
   getUid() async {
     FirebaseAuth auth = FirebaseAuth.instance;

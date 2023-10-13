@@ -93,6 +93,7 @@ class _EditNoteState extends State<EditNote> {
                   style: const TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255), fontSize: 48),
                   enabled: enableEdit,
+                  //we use widgit keyword to access the current vaule od notes.title
                   initialValue: widget.note.title,
                   onChanged: (value) {
                     widget.note.title = value;
