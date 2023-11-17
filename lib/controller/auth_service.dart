@@ -13,8 +13,9 @@ class AuthService extends Dialogs {
       FirebaseFirestore.instance.collection("users");
 
   Future signInWithGoogle(BuildContext context) async {
-    diag.circularProgress(context);
+    
     try {
+      diag.circularProgress(context);
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication gAuth = await gUser!.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -99,7 +100,9 @@ class AuthService extends Dialogs {
 
   Future signUp(BuildContext context, bool pass, emailController,
       String passwordController) async {
-    diag.circularProgress(context);
+
+    try {
+      diag.circularProgress(context);
     if (pass) {
       final UserCredential authResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -129,13 +132,24 @@ class AuthService extends Dialogs {
           });
       await FirebaseAuth.instance.currentUser?.reload();
       // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      Navigator.of(context).pop();
+   
     } else {
       return showDialog(
           context: context,
           builder: (context) {
             return const AlertDialog(
-              title: Text("Both passwords are not the same"),
+              title: Text("An error occcurd"),
+            );
+          });
+    }
+     } on FirebaseAuthException catch (e) {
+        // ignore: use_build_context_synchronously
+        return showDialog(
+          context: context,
+          builder: (context) {
+            return  AlertDialog(
+              title: Text(e.code),
             );
           });
     }

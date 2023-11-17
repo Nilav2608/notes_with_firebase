@@ -6,9 +6,15 @@ import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 import 'package:provider/provider.dart';
 
-class LogInPage extends StatelessWidget {
+class LogInPage extends StatefulWidget {
   final VoidCallback showRegisterpage;
   const LogInPage({super.key, required this.showRegisterpage});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -49,7 +55,7 @@ class LogInPage extends StatelessWidget {
                     height: 40,
                   ),
                    Text(
-                    "Username",
+                    "Email",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -60,7 +66,7 @@ class LogInPage extends StatelessWidget {
                   ),
                   MyTextField(
                       controller: emailController,
-                      hint: "Enter Your Username",
+                      hint: "Enter Your Email",
                       // changed: (value) {
                       //   validate(value);
                       // },
@@ -70,7 +76,7 @@ class LogInPage extends StatelessWidget {
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                    Text(
                     "Password",
@@ -94,7 +100,7 @@ class LogInPage extends StatelessWidget {
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
                   LogInSignUpButton(
                       onPressed: () {
@@ -154,7 +160,7 @@ class LogInPage extends StatelessWidget {
                       const Text("Don't have an account?",
                           style: TextStyle(color: Color(0xFF979797))),
                       GestureDetector(
-                          onTap: showRegisterpage,
+                          onTap: widget.showRegisterpage,
                           child:  Text("Register",
                               style: TextStyle(color: Theme.of(context).colorScheme.secondary))),
                     ],
