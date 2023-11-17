@@ -31,11 +31,11 @@ class IntroPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+               Text(
                 "Welcome To Notes",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -43,11 +43,11 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
+               Text(
                 "Please login to your account or create a new account to continue",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.background,
                   fontSize: 16,
                 ),
               ),
@@ -75,9 +75,9 @@ class IntroPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: const Text(
+                  child:  Text(
                     "CREATE ACCOUNT",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
               ),
