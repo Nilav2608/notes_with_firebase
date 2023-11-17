@@ -49,11 +49,11 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: bgColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(60),
                 child: MyAppBar(
-                    bgColor: bgColor,
+                    // bgColor: bgColor,
                     signOut: () {
                       dataProvider.signOut(context);
                     })),
@@ -61,11 +61,13 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 addNote();
               },
-              backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+              // backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+              backgroundColor: Theme.of(context).colorScheme.primary,
               elevation: 10,
-              child: const Icon(
+              child:  Icon(
                 Icons.add_rounded,
-                size: 48,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 28,
               ),
             ),
             body: ListView.builder(

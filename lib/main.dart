@@ -5,6 +5,7 @@ import 'package:notes_with_firebase/controller/stream_builder.dart';
 import 'package:notes_with_firebase/firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_with_firebase/view/pages/intro_page.dart';
+import 'package:notes_with_firebase/view/themes/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => NotesDataProvider(),
       builder: (context, child) =>  MaterialApp(
+          
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: _buildTextTheme(ThemeData.light().textTheme),
-          ),
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          
+          
           initialRoute: initScreen == 0 || initScreen == null? "intro" : "home",
           routes: {
             'home' :(context) => const StreamPage(),

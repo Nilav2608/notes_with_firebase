@@ -18,11 +18,11 @@ class _EditNoteState extends State<EditNote> {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = const Color(0x00252525);
+    Color bgColor = Theme.of(context).colorScheme.background;
     var dataProvider = Provider.of<NotesDataProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         toolbarHeight: 60,
         backgroundColor: bgColor,
@@ -36,10 +36,11 @@ class _EditNoteState extends State<EditNote> {
             child: Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 59, 59, 59),
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(15)),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_back,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 24,
                 )),
           ),
@@ -57,10 +58,11 @@ class _EditNoteState extends State<EditNote> {
               child: Container(
                   padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 59, 59, 59),
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(15)),
-                  child: const Icon(
+                  child: Icon(
                     Icons.edit,
+                    color: Theme.of(context).colorScheme.secondary,
                     size: 24,
                   )),
             ),
@@ -83,15 +85,16 @@ class _EditNoteState extends State<EditNote> {
                   minLines: 1,
                   maxLines: 7,
                   // expands: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Title',
                       hintStyle: TextStyle(
-                        color: Color(0xFF9A9A9A),
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 48,
                       )),
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 48),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 48),
                   enabled: enableEdit,
                   //we use widgit keyword to access the current vaule od notes.title
                   initialValue: widget.note.title,
@@ -117,8 +120,9 @@ class _EditNoteState extends State<EditNote> {
                         color: Color(0xFF9A9A9A),
                         fontSize: 24,
                       )),
-                  style:
-                      const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 24),
                   enabled: enableEdit,
                   initialValue: widget.note.content,
                   onChanged: (value) {
@@ -145,10 +149,11 @@ class _EditNoteState extends State<EditNote> {
                       widget.note.color!,
                       widget.note.id!);
                 },
-                backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 elevation: 10,
-                child: const Icon(
+                child: Icon(
                   Icons.save_rounded,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 38,
                 ),
               ),

@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
-  final Color bgColor;
+  // final Color bgColor;
   final VoidCallback signOut;
   const MyAppBar({
-    required this.bgColor,
+    // required this.bgColor,
     required this.signOut,
     super.key
     });
@@ -13,15 +13,18 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-            backgroundColor: bgColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             elevation: 0,
-            title: const Padding(
-              padding: EdgeInsets.all(10.0),
+            title:  Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Notes",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.bold, fontSize: 32),
                 ),
               ),
             ),
@@ -33,10 +36,12 @@ class MyAppBar extends StatelessWidget {
                   child: Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 59, 59, 59),
+                          // color: const Color.fromARGB(255, 59, 59, 59),
+                          color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(15)),
-                      child: const Icon(
+                      child:  Icon(
                         Icons.logout_rounded,
+                        color: Theme.of(context).colorScheme.secondary,
                         size: 24,
                       )),
                 ),
@@ -49,10 +54,11 @@ class MyAppBar extends StatelessWidget {
                 child: Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 59, 59, 59),
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(15)),
-                    child: const Icon(
+                    child:  Icon(
                       Icons.info_outline,
+                      color: Theme.of(context).colorScheme.secondary,
                       size: 24,
                     )),
               ),

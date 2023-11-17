@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0x00121212),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -41,10 +41,10 @@ class RegisterPage extends StatelessWidget {
                  SizedBox(
                   height: screenHeight * 0.04,
                 ),
-                const Text(
+                 Text(
                   "Register",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -52,10 +52,10 @@ class RegisterPage extends StatelessWidget {
                  SizedBox(
                   height: screenHeight * 0.03,
                 ),
-                const Text(
+                 Text(
                   "Email",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 16,
                   ),
                 ),
@@ -73,10 +73,10 @@ class RegisterPage extends StatelessWidget {
                  SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                const Text(
+                 Text(
                   "Password",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 16,
                   ),
                 ),
@@ -92,10 +92,10 @@ class RegisterPage extends StatelessWidget {
                  SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                const Text(
+                 Text(
                   "Confirm Password",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 16,
                   ),
                 ),
@@ -127,9 +127,9 @@ class RegisterPage extends StatelessWidget {
                  SizedBox(
                   height: screenHeight * 0.01,
                 ),
-                const Row(
+                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Divider(
                         color: Color(0xFF979797),
                       ),
@@ -137,11 +137,11 @@ class RegisterPage extends StatelessWidget {
                     Text(
                       "Or",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 16,
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Divider(
                         color: Color(0xFF979797),
                       ),
@@ -178,9 +178,9 @@ class RegisterPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: showLoginPage,
-                      child: const Text(
+                      child:  Text(
                         "Login",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                       ),
                     ),
                   ],

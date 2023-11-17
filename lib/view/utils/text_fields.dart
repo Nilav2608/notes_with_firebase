@@ -16,7 +16,7 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0xFF1D1D1D),
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: const Color(0xFF979797))),
       child: Padding(
@@ -25,12 +25,14 @@ class MyTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscure,
           // onChanged:changed,
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+          style:  TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.secondary),
           decoration: InputDecoration(
             border: InputBorder.none,
             hintStyle:
-                const TextStyle(color: Color.fromARGB(115, 255, 255, 255)),
+                 TextStyle(
+                  color: Theme.of(context).colorScheme.secondary
+                  ),
             hintText: hint,
           ),
         ),

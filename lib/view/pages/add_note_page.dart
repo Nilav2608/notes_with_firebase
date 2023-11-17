@@ -14,17 +14,17 @@ class AddNote extends StatelessWidget {
   String? title;
   String? content;
   var dialog = Dialogs();
-  Color bgColor = const Color(0x00252525);
+  // Color bgColor = Theme.of(context).colorScheme.background;
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<NotesDataProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         toolbarHeight: 60,
-        backgroundColor: bgColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -35,10 +35,11 @@ class AddNote extends StatelessWidget {
             child: Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 59, 59, 59),
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(15)),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_back,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 24,
                 )),
           ),
@@ -49,10 +50,11 @@ class AddNote extends StatelessWidget {
             child: Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 59, 59, 59),
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(15)),
-                child: const Icon(
+                child: Icon(
                   Icons.remove_red_eye_outlined,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 24,
                 )),
           ),
@@ -67,10 +69,11 @@ class AddNote extends StatelessWidget {
               child: Container(
                   padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 59, 59, 59),
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(15)),
-                  child: const Icon(
+                  child: Icon(
                     Icons.save_sharp,
+                    color: Theme.of(context).colorScheme.secondary,
                     size: 24,
                   )),
             ),
@@ -100,7 +103,9 @@ class AddNote extends StatelessWidget {
                       color: Color(0xFF9A9A9A),
                       fontSize: 48,
                     )),
-                style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 48),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 48),
               ),
 
               const SizedBox(
@@ -121,7 +126,9 @@ class AddNote extends StatelessWidget {
                       color: Color(0xFF9A9A9A),
                       fontSize: 24,
                     )),
-                style: const TextStyle(color: Color(0xFFFFFFFF), fontSize: 24),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 24),
               ),
             ],
           ),

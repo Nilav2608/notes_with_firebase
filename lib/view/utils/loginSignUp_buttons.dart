@@ -16,7 +16,12 @@ class LogInSignUpButton extends StatelessWidget {
           onPressed: onPressed,
           style: const ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Color(0xFF8875FF))),
-          child: Text(text)),
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white
+            ),
+          )),
     );
   }
 }

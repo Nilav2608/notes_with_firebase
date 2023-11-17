@@ -23,7 +23,7 @@ class LogInPage extends StatelessWidget {
     // }
     var key = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: const Color(0x00121212),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -38,20 +38,20 @@ class LogInPage extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  const Text(
+                   Text(
                     "LogIn",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 32,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
+                   Text(
                     "Username",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                     ),
                   ),
@@ -72,10 +72,10 @@ class LogInPage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
+                   Text(
                     "Password",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                     ),
                   ),
@@ -107,9 +107,9 @@ class LogInPage extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Row(
+                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           color: Color(0xFF979797),
                         ),
@@ -117,11 +117,11 @@ class LogInPage extends StatelessWidget {
                       Text(
                         "Or",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 16,
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           color: Color(0xFF979797),
                         ),
@@ -155,8 +155,8 @@ class LogInPage extends StatelessWidget {
                           style: TextStyle(color: Color(0xFF979797))),
                       GestureDetector(
                           onTap: showRegisterpage,
-                          child: const Text("Register",
-                              style: TextStyle(color: Colors.white))),
+                          child:  Text("Register",
+                              style: TextStyle(color: Theme.of(context).colorScheme.secondary))),
                     ],
                   )
                 ],
