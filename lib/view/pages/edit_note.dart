@@ -141,13 +141,17 @@ class _EditNoteState extends State<EditNote> {
               padding: const EdgeInsets.only(bottom: 30.0, right: 30),
               child: FloatingActionButton(
                 onPressed: () {
-                  dataProvider.updateRecord(
+                  if (widget.note.title == null) {
+                    Navigator.pop(context);
+                  }else{
+                    dataProvider.updateRecord(
                       context,
                       widget.note.title ?? '',
                       widget.note.content ?? "",
                       widget.note.id ?? '',
                       widget.note.color!,
                       widget.note.id!);
+                  }
                 },
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 elevation: 10,

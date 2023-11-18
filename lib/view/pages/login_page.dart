@@ -6,6 +6,8 @@ import 'package:notes_with_firebase/view/utils/outlined_authbtns.dart';
 import 'package:notes_with_firebase/view/utils/text_fields.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/dialogs.dart';
+
 class LogInPage extends StatefulWidget {
   final VoidCallback showRegisterpage;
   const LogInPage({super.key, required this.showRegisterpage});
@@ -13,6 +15,9 @@ class LogInPage extends StatefulWidget {
   @override
   State<LogInPage> createState() => _LogInPageState();
 }
+
+var authService = AuthService();
+var diag = Dialogs();
 
 class _LogInPageState extends State<LogInPage> {
   @override
@@ -24,7 +29,7 @@ class _LogInPageState extends State<LogInPage> {
     // var isValidEmail = FilteringTextInputFormatter.allow(RegExp("^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"));
     // validate(String? val) {
     //   if(val != null){
-        
+
     //   }
     // }
     var key = GlobalKey<FormState>();
@@ -44,7 +49,7 @@ class _LogInPageState extends State<LogInPage> {
                   const SizedBox(
                     height: 50,
                   ),
-                   Text(
+                  Text(
                     "LogIn",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
@@ -54,7 +59,7 @@ class _LogInPageState extends State<LogInPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                   Text(
+                  Text(
                     "Email",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
@@ -67,9 +72,15 @@ class _LogInPageState extends State<LogInPage> {
                   MyTextField(
                       controller: emailController,
                       hint: "Enter Your Email",
-                      // changed: (value) {
-                      //   validate(value);
-                      // },
+                      validator: (value) {
+                        if (value!.isEmpty ||
+                            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                .hasMatch(value)) {
+                          return "Enter valid email";
+                        } else {
+                          return null;
+                        }
+                      },
                       obscure: false),
                   Text(
                     provider.isTrue ? "Invaid user name" : "",
@@ -78,7 +89,7 @@ class _LogInPageState extends State<LogInPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                   Text(
+                  Text(
                     "Password",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
@@ -91,21 +102,23 @@ class _LogInPageState extends State<LogInPage> {
                   MyTextField(
                       controller: passwordController,
                       hint: "Enter Your Password",
-                      // changed: (value) {
-                      //   validate(value);
-                      // },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter password";
+                        } else {
+                          return null;
+                        }
+                      },
                       obscure: true),
-                  Text(
-                    provider.isTrue ? "Invaid password" : "",
-                    style: const TextStyle(color: Colors.red),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   LogInSignUpButton(
                       onPressed: () {
-                        AuthService().login(context, emailController.text,
-                            passwordController.text);
+                        if (key.currentState!.validate()) {
+                          authService.login(context, emailController.text,
+                              passwordController.text);
+                        }
                         // provider.login(context, emailController.text, passwordController.text);
                         debugPrint("logged in");
                       },
@@ -113,7 +126,7 @@ class _LogInPageState extends State<LogInPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                   Row(
+                  Row(
                     children: [
                       const Expanded(
                         child: Divider(
@@ -161,8 +174,11 @@ class _LogInPageState extends State<LogInPage> {
                           style: TextStyle(color: Color(0xFF979797))),
                       GestureDetector(
                           onTap: widget.showRegisterpage,
-                          child:  Text("Register",
-                              style: TextStyle(color: Theme.of(context).colorScheme.secondary))),
+                          child: Text("Register",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary))),
                     ],
                   )
                 ],

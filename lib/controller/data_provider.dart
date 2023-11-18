@@ -31,7 +31,7 @@ class NotesDataProvider with ChangeNotifier {
     0xFFFF9E9E,
     0xFF91F48F,
     0xFFFFF599,
-    0xFF9EFFFF,
+    0xFFB1C7FF,
     0xFFB69CFF,
   ];
   var random = Random();

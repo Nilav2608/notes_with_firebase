@@ -13,9 +13,9 @@ class AuthService extends Dialogs {
       FirebaseFirestore.instance.collection("users");
 
   Future signInWithGoogle(BuildContext context) async {
-    
+    diag.circularProgress(context);
+    //  CircularProgressIndicator();
     try {
-      diag.circularProgress(context);
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication gAuth = await gUser!.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -76,79 +76,73 @@ class AuthService extends Dialogs {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
- 
-          // ignore: use_build_context_synchronously
-            Navigator.pop(context);
         // ignore: use_build_context_synchronously
-        diag.wrongEmailMessage(context,e.code);
+        Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        diag.wrongEmailMessage(context, e.code);
 
-           
         debugPrint("user not found");
       } else if (e.code == 'wrong-password') {
-      
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context);
         // ignore: use_build_context_synchronously
-        diag.wrongEmailMessage(context,e.code);
+        Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        diag.wrongEmailMessage(context, e.code);
         debugPrint("wrong-password");
       }
     }
   }
 
-  
   //* SignUp with email and password
 
   Future signUp(BuildContext context, bool pass, emailController,
       String passwordController) async {
-
     try {
       diag.circularProgress(context);
-    if (pass) {
-      final UserCredential authResult = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController, password: passwordController);
+      if (pass) {
+        final UserCredential authResult = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: emailController, password: passwordController);
 
-      var user = authResult.user;
-      var email = user!.email;
-      var name1 = email!.split("@");
-      var userData = UserData(
-              name: name1[0],
-              provider: "email and password",
-              email: user.email,
-              photoUrl: user.photoURL)
-          .toJson();
-      //  {
-      //   "name": name1[0],
-      //   "provider": "email and password",
-      //   "photoUrl": user.photoURL,
-      //   "email": user.email,
-      // };
+        var user = authResult.user;
+        var email = user!.email;
+        var name1 = email!.split("@");
+        var userData = UserData(
+                name: name1[0],
+                provider: "email and password",
+                email: user.email,
+                photoUrl: user.photoURL)
+            .toJson();
+        //  {
+        //   "name": name1[0],
+        //   "provider": "email and password",
+        //   "photoUrl": user.photoURL,
+        //   "email": user.email,
+        // };
 
-      collection.doc(user.uid).get().then((id) => {
-            if (id.exists)
-              {id.reference.update(userData)}
-            else
-              {collection.doc(user.uid).set(userData)}
-          });
-      await FirebaseAuth.instance.currentUser?.reload();
+        collection.doc(user.uid).get().then((id) => {
+              if (id.exists)
+                {id.reference.update(userData)}
+              else
+                {collection.doc(user.uid).set(userData)}
+            });
+        await FirebaseAuth.instance.currentUser?.reload();
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
+      } else {
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text("An error occcurd"),
+              );
+            });
+      }
+    } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-   
-    } else {
       return showDialog(
           context: context,
           builder: (context) {
-            return const AlertDialog(
-              title: Text("An error occcurd"),
-            );
-          });
-    }
-     } on FirebaseAuthException catch (e) {
-        // ignore: use_build_context_synchronously
-        return showDialog(
-          context: context,
-          builder: (context) {
-            return  AlertDialog(
+            return AlertDialog(
               title: Text(e.code),
             );
           });

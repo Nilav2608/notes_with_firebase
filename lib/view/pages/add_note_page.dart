@@ -62,8 +62,18 @@ class AddNote extends StatelessWidget {
             width: 10,
           ),
           GestureDetector(
-            onTap: () => provider.add(
-                context, title, content), // dialog.saveDialog(context, add),
+            onTap: () {
+              try {
+                if (title == null) {
+                  Navigator.pop(context);
+                } else {
+                  provider.add(context, title, content);
+                }
+              } catch (e) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(e.toString())));
+              }
+            }, // dialog.saveDialog(context, add),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
