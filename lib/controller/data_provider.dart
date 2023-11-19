@@ -21,6 +21,19 @@ class NotesDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool emptyList = true;
+
+  void isListEmpty() {
+    if (_notesList.isEmpty) {
+      emptyList = true;
+      notifyListeners();
+    } else {
+      emptyList = false;
+      notifyListeners();
+    }
+    
+  }
+
   deleteAll() {
     _notesList.clear();
     notifyListeners();

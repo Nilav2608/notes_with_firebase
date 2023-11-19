@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/view/pages/add_note_page.dart';
@@ -9,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/data_provider.dart';
 import '../../models/note_model.dart';
+import '../utils/dialogs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
     fetchData.getUid();
     fetchData.fetchNotes();
+
     FirebaseFirestore.instance
         .collection("users")
         .doc(fetchData.userID)
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var diag = Dialogs();
     var dataProvider = context.watch<NotesDataProvider>();
     // var provider = Provider.of<NotesDataProvider>(context, listen: false);
     List<Notes> dataNote = dataProvider.notes;
@@ -49,28 +51,46 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.background,
-            appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(60),
-                child: MyAppBar(
-                    // bgColor: bgColor,
-                    signOut: () {
-                      dataProvider.signOut(context);
-                    })),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                addNote();
-              },
-              // backgroundColor: const Color.fromARGB(255, 59, 59, 59),
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              elevation: 10,
-              child:  Icon(
-                Icons.add_rounded,
-                color: Theme.of(context).colorScheme.secondary,
-                size: 28,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: MyAppBar(
+              // bgColor: bgColor,
+              signOut: () async {
+            diag.circularProgress(context);
+            await dataProvider.signOut(context);
+          })),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addNote();
+        },
+        // backgroundColor: const Color.fromARGB(255, 59, 59, 59),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 10,
+        child: Icon(
+          Icons.add_rounded,
+          color: Theme.of(context).colorScheme.secondary,
+          size: 28,
+        ),
+      ),
+      body: Consumer<NotesDataProvider>(
+        builder: (context, value, child) {
+          if (value.notes.isEmpty) {
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset("assets/rafiki.png"),
+                  Text(
+                    "Create your first note!",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary),
+                  )
+                ],
               ),
-            ),
-            body: ListView.builder(
+            );
+          } else {
+            return ListView.builder(
               itemCount: dataNote.length,
               itemBuilder: (context, index) {
                 // var bg = tileColors[random.nextInt(6)];
@@ -90,7 +110,11 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               },
-            )));
+            );
+          }
+        },
+      ),
+    ));
   }
 
   addNote() {
@@ -100,6 +124,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context) => AddNote(),
         ));
   }
+
   editNote(Notes note) {
     Navigator.push(
         context,
@@ -107,5 +132,4 @@ class _HomePageState extends State<HomePage> {
           builder: (context) => EditNote(note: note),
         ));
   }
-
 }
