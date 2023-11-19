@@ -49,9 +49,16 @@ class _EditNoteState extends State<EditNote> {
           GestureDetector(
             onTap: () {
               debugPrint("clicked");
+
               setState(() {
                 enableEdit = !enableEdit;
               });
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  duration: const Duration(milliseconds: 500),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  content: Text(enableEdit
+                      ? "Now you can edit your note!"
+                      : "Read only mode!")));
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -143,14 +150,17 @@ class _EditNoteState extends State<EditNote> {
                 onPressed: () {
                   if (widget.note.title == null) {
                     Navigator.pop(context);
-                  }else{
+                  } else {
                     dataProvider.updateRecord(
-                      context,
-                      widget.note.title ?? '',
-                      widget.note.content ?? "",
-                      widget.note.id ?? '',
-                      widget.note.color!,
-                      widget.note.id!);
+                        context,
+                        widget.note.title ?? '',
+                        widget.note.content ?? "",
+                        widget.note.id ?? '',
+                        widget.note.color!,
+                        widget.note.id!);
+                    setState(() {
+                      enableEdit = !enableEdit;
+                    });
                   }
                 },
                 backgroundColor: Theme.of(context).colorScheme.primary,

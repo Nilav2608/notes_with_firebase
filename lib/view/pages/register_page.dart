@@ -62,7 +62,7 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: screenHeight * 0.04,
+                    height: screenHeight * 0.03,
                   ),
                   Text(
                     "Register",
@@ -73,7 +73,7 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.03,
+                    height: screenHeight * 0.02,
                   ),
                   Text(
                     "Email",
@@ -158,7 +158,7 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                     },
                   ),
                   SizedBox(
-                    height: screenHeight * 0.04,
+                    height: screenHeight * 0.03,
                   ),
                   LogInSignUpButton(
                     onPressed: () {
