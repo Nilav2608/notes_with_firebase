@@ -22,7 +22,7 @@ var diag = Dialogs();
 class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
-    final double screenWidht = MediaQuery.of(context).size.width;
+    // final double screenWidht = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();

@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 
 import '../../controller/data_provider.dart';
 import '../../models/note_model.dart';
-import '../utils/dialogs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
