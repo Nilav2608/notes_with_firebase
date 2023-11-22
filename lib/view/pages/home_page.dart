@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Color bgColor = const Color(0x00252525);
-
+  
   @override
   void initState() {
     final fetchData = Provider.of<NotesDataProvider>(context, listen: false);
@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     // var diag = Dialogs();
     var dataProvider = context.watch<NotesDataProvider>();
     // var provider = Provider.of<NotesDataProvider>(context, listen: false);

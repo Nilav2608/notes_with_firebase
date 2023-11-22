@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:notes_with_firebase/controller/auth_service.dart';
 import 'package:notes_with_firebase/view/utils/loginSignUp_buttons.dart';
@@ -161,8 +163,12 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                     height: screenHeight * 0.03,
                   ),
                   LogInSignUpButton(
-                    onPressed: () {
-                      if (formkey.currentState!.validate()) {
+                    onPressed: ()  {
+                      if (formkey.currentState!.validate())  {
+                        // SharedPreferences prefs =
+                        //       await SharedPreferences.getInstance();
+                        //   await prefs.setBool("isFirstLaunch", false);
+                       
                         AuthService().signUp(
                           context,
                           passwordConfirmed(),
@@ -201,7 +207,13 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
                     height: screenHeight * 0.01,
                   ),
                   OutlinedAuthButtons(
-                    onPressed: () => AuthService().signInWithGoogle(context),
+                    onPressed: ()  {
+                          // SharedPreferences prefs =
+                          //     await SharedPreferences.getInstance();
+                          // await prefs.setBool("isFirstLaunch", false);
+            
+                          AuthService().signInWithGoogle(context);
+                        },
                     imgPath: "assets/google.png",
                     width: 20,
                     text: "Login with Google",

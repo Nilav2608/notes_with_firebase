@@ -7,13 +7,13 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    navPush() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const StreamPage(),
-        ),
-      );
+    navPush() async {
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // await prefs.setBool("isFirstLaunch", false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const StreamPage()),
+          (route) => false);
     }
 
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -31,7 +31,7 @@ class IntroPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-               Text(
+              Text(
                 "Welcome To Notes",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -43,7 +43,7 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-               Text(
+              Text(
                 "Please login to your account or create a new account to continue",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -70,14 +70,16 @@ class IntroPage extends StatelessWidget {
                   style: ButtonStyle(
                     side: MaterialStateProperty.all<BorderSide>(
                       const BorderSide(
-                        color: Color(0xFF8E7CFF), // Set the desired outline color
+                        color:
+                            Color(0xFF8E7CFF), // Set the desired outline color
                         width: 2.0, // Set the desired outline width
                       ),
                     ),
                   ),
-                  child:  Text(
+                  child: Text(
                     "CREATE ACCOUNT",
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
               ),

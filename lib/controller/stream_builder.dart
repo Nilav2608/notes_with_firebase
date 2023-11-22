@@ -14,6 +14,7 @@ class StreamPage extends StatelessWidget {
       builder: (context, snapshot) {
         debugPrint("streamed data");
         if (snapshot.hasData) {
+          
           return const HomePage();
         } else {
           return const PageSwitch();

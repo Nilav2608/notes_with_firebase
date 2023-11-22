@@ -102,7 +102,7 @@ class AddNote extends StatelessWidget {
 
               TextField(
                 minLines: 1,
-
+                autofocus: true,
                 onChanged: (value) => title = value,
                 maxLines: 7,
                 // expands: true,

@@ -59,7 +59,7 @@ class _LogInPageState extends State<LogInPage> {
                           fontSize: 32,
                           fontWeight: FontWeight.bold),
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: screenHeight * 0.05,
                     ),
                     Text(
@@ -69,7 +69,7 @@ class _LogInPageState extends State<LogInPage> {
                         fontSize: 16,
                       ),
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: screenHeight * 0.01,
                     ),
                     MyTextField(
@@ -89,7 +89,7 @@ class _LogInPageState extends State<LogInPage> {
                       provider.isTrue ? "Invaid user name" : "",
                       style: const TextStyle(color: Colors.red),
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: screenHeight * 0.01,
                     ),
                     Text(
@@ -117,8 +117,12 @@ class _LogInPageState extends State<LogInPage> {
                       height: 20,
                     ),
                     LogInSignUpButton(
-                        onPressed: () {
+                        onPressed: ()  {
                           if (key.currentState!.validate()) {
+                          //   SharedPreferences prefs =
+                          //     await SharedPreferences.getInstance();
+                          // await prefs.setBool("isFirstLaunch", false);
+                            
                             authService.login(context, emailController.text,
                                 passwordController.text);
                           }
@@ -154,7 +158,13 @@ class _LogInPageState extends State<LogInPage> {
                       height: 30,
                     ),
                     OutlinedAuthButtons(
-                        onPressed: () => AuthService().signInWithGoogle(context),
+                        onPressed: () async {
+                          // SharedPreferences prefs =
+                          //     await SharedPreferences.getInstance();
+                          // await prefs.setBool("isFirstLaunch", false);
+                          // ignore: use_build_context_synchronously
+                          AuthService().signInWithGoogle(context);
+                        },
                         imgPath: "assets/google.png",
                         width: 20,
                         text: "Login with Google"),
