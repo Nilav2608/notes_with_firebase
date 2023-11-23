@@ -49,6 +49,7 @@ final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       key: scaffoldKey,
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
