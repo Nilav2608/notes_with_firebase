@@ -13,8 +13,30 @@ class EditNote extends StatefulWidget {
   State<EditNote> createState() => _EditNoteState();
 }
 
-class _EditNoteState extends State<EditNote> {
+class _EditNoteState extends State<EditNote> with WidgetsBindingObserver {
   bool enableEdit = false;
+  bool showFab = true;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    final keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+    setState(() {
+      showFab = !keyboardVisible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +101,33 @@ class _EditNoteState extends State<EditNote> {
           ),
         ],
       ),
+      floatingActionButton: showFab && enableEdit
+          ? FloatingActionButton(
+              onPressed: () {
+                if (widget.note.title == null) {
+                  Navigator.pop(context);
+                } else {
+                  dataProvider.updateRecord(
+                      context,
+                      widget.note.title ?? '',
+                      widget.note.content ?? "",
+                      widget.note.id ?? '',
+                      widget.note.color!,
+                      widget.note.id!);
+                  setState(() {
+                    enableEdit = !enableEdit;
+                  });
+                }
+              },
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              elevation: 10,
+              child: Icon(
+                Icons.save_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 38,
+              ),
+            )
+          : null,
       body: Stack(children: [
         SingleChildScrollView(
           // controller: controller,
@@ -140,40 +189,40 @@ class _EditNoteState extends State<EditNote> {
             ),
           ),
         ),
-        Visibility(
-          visible: enableEdit,
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 30.0, right: 30),
-              child: FloatingActionButton(
-                onPressed: () {
-                  if (widget.note.title == null) {
-                    Navigator.pop(context);
-                  } else {
-                    dataProvider.updateRecord(
-                        context,
-                        widget.note.title ?? '',
-                        widget.note.content ?? "",
-                        widget.note.id ?? '',
-                        widget.note.color!,
-                        widget.note.id!);
-                    setState(() {
-                      enableEdit = !enableEdit;
-                    });
-                  }
-                },
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                elevation: 10,
-                child: Icon(
-                  Icons.save_rounded,
-                  color: Theme.of(context).colorScheme.secondary,
-                  size: 38,
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Visibility(
+        //   visible: enableEdit,
+        //   child: Align(
+        //     alignment: Alignment.bottomRight,
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(bottom: 30.0, right: 30),
+        //       child: FloatingActionButton(
+        //         onPressed: () {
+        //           if (widget.note.title == null) {
+        //             Navigator.pop(context);
+        //           } else {
+        //             dataProvider.updateRecord(
+        //                 context,
+        //                 widget.note.title ?? '',
+        //                 widget.note.content ?? "",
+        //                 widget.note.id ?? '',
+        //                 widget.note.color!,
+        //                 widget.note.id!);
+        //             setState(() {
+        //               enableEdit = !enableEdit;
+        //             });
+        //           }
+        //         },
+        //         backgroundColor: Theme.of(context).colorScheme.primary,
+        //         elevation: 10,
+        //         child: Icon(
+        //           Icons.save_rounded,
+        //           color: Theme.of(context).colorScheme.secondary,
+        //           size: 38,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ]),
     );
   }

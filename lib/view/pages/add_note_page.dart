@@ -106,6 +106,7 @@ class AddNote extends StatelessWidget {
                 onChanged: (value) => title = value,
                 maxLines: 7,
                 // expands: true,
+                  enableInteractiveSelection: true,
                 decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Title',
